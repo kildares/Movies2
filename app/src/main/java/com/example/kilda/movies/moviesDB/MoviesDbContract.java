@@ -14,6 +14,7 @@ public class MoviesDbContract {
     public static final Uri BASE_CONTENT_URI = Uri.parse("moviesDB://" + CONTENT_AUTHORITY);
 
     public static final String PATH_MOVIE = "movie";
+    public static final String PATH_MOVIE_FAVORITE = "movie/favorite";
 
     public static final class MoviesEntry implements BaseColumns
     {

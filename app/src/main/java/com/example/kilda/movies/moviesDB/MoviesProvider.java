@@ -4,6 +4,7 @@ import android.content.ContentProvider;
 import android.content.ContentValues;
 import android.content.UriMatcher;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -16,6 +17,7 @@ public class MoviesProvider extends ContentProvider{
 
     public static final int CODE_MOVIE = 100;
     public static final int CODE_MOVIE_FAVORITE = 200;
+    public static final int CODE_MOVIE_FAVORITE_FILTER = 201;
 
 
     private static final UriMatcher sUriMatcher = buildUriMatcher();
@@ -27,7 +29,9 @@ public class MoviesProvider extends ContentProvider{
         final String authority = MoviesDbContract.CONTENT_AUTHORITY;
 
         matcher.addURI(authority, MoviesDbContract.PATH_MOVIE, CODE_MOVIE);
-        matcher.addURI(authority, MoviesDbContract.PATH_MOVIE +"/favorite", CODE_MOVIE_FAVORITE);
+        matcher.addURI(authority, MoviesDbContract.PATH_MOVIE_FAVORITE, CODE_MOVIE_FAVORITE);
+
+        matcher.addURI(authority,MoviesDbContract.PATH_MOVIE_FAVORITE+ "/#", MoviesProvider.CODE_MOVIE_FAVORITE_FILTER);
 
         return matcher;
     }
@@ -95,12 +99,94 @@ public class MoviesProvider extends ContentProvider{
     }
 
     @Override
-    public int delete(@NonNull Uri uri, @Nullable String s, @Nullable String[] strings) {
-        return 0;
+    public int delete(@NonNull Uri uri, @Nullable String selection, @Nullable String[] selectionArgs) {
+
+        int numRowsDeleted;
+
+        if(selection == null )
+            selection = "1";
+
+        int match = sUriMatcher.match(uri);
+
+        switch(match)
+        {
+            case CODE_MOVIE:{
+                SQLiteDatabase sqLiteDatabase = mOpenHelper.getWritableDatabase();
+                numRowsDeleted = sqLiteDatabase.delete(MoviesDbContract.MoviesEntry.TABLE_NAME, selection, selectionArgs);
+                return numRowsDeleted;
+            }
+
+            default: throw new UnsupportedOperationException("Invalid Uri");
+        }
     }
 
     @Override
     public int update(@NonNull Uri uri, @Nullable ContentValues contentValues, @Nullable String s, @Nullable String[] strings) {
-        return 0;
+
+        SQLiteDatabase sqLiteDatabase = mOpenHelper.getWritableDatabase();
+
+        int match = sUriMatcher.match(uri);
+        int result = 0;
+        switch(match)
+        {
+            case CODE_MOVIE_FAVORITE_FILTER:{
+
+                result = sqLiteDatabase.update(MoviesDbContract.MoviesEntry.TABLE_NAME,
+                        contentValues,
+                        s,
+                        strings);
+                break;
+            }
+            default: throw new UnsupportedOperationException("Not valid Uri");
+        }
+        return result;
+    }
+
+    @Override
+    public int bulkInsert(@NonNull Uri uri, @NonNull ContentValues[] values) {
+
+        final SQLiteDatabase sqLiteDatabase = mOpenHelper.getWritableDatabase();
+
+        int match = sUriMatcher.match(uri);
+
+        switch(match){
+            case CODE_MOVIE: {
+                sqLiteDatabase.beginTransaction();
+                int rows = 0;
+
+                try{
+                    for (ContentValues value : values)
+                    {
+                        String title = value.getAsString(MoviesDbContract.MoviesEntry.COLUMN_TITLE);
+                        if(title.isEmpty())
+                            throw new UnsupportedOperationException("Movie Title cannot be empty");
+
+                        long _id = sqLiteDatabase.insert(MoviesDbContract.MoviesEntry.TABLE_NAME, null, value);
+                        if (_id != -1) {
+                            rows++;
+                        }
+                    }
+                    sqLiteDatabase.setTransactionSuccessful();
+                }
+                finally {
+                    sqLiteDatabase.endTransaction();
+                }
+
+                if(rows > 0)
+                    getContext().getContentResolver().notifyChange(uri, null);
+
+                return rows;
+            }
+
+            default:{
+                return super.bulkInsert(uri,values);
+            }
+        }
+    }
+
+    @Override
+    public void shutdown() {
+        mOpenHelper.close();
+        super.shutdown();
     }
 }
