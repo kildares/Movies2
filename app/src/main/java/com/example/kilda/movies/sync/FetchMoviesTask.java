@@ -1,9 +1,11 @@
-package com.example.kilda.movies;
+package com.example.kilda.movies.sync;
 
 import android.content.Context;
 import android.os.AsyncTask;
 import android.view.View;
 
+import com.example.kilda.movies.MainActivity;
+import com.example.kilda.movies.Movies;
 import com.example.kilda.movies.utilities.MoviesJsonUtils;
 import com.example.kilda.movies.utilities.NetworkUtils;
 

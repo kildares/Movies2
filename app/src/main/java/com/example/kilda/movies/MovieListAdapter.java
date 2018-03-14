@@ -1,6 +1,7 @@
 package com.example.kilda.movies;
 
 import android.content.Context;
+import android.database.Cursor;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,10 +18,15 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.Movi
 
     private final MovieListAdapterOnClickHandler movieListAdapterOnClickHandler;
     private Movies[] Movies;
+    private Cursor mCursor;
 
     public MovieListAdapter(MovieListAdapterOnClickHandler clickHandler)
     {
         movieListAdapterOnClickHandler = clickHandler;
+    }
+
+    public void updateCursor(Cursor cursor) {
+        mCursor = cursor;
     }
 
     public interface MovieListAdapterOnClickHandler

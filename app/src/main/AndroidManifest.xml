@@ -23,6 +23,11 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.kilda.movies.MainActivity" />
         </activity>
+
+        <provider
+            android:name=".moviesDB.MoviesProvider"
+            android:authorities="@string/content_authority"
+            android:exported="false"/>
     </application>
 
 </manifest>

@@ -16,4 +16,6 @@
     <string name="description_movie_img">This image contains a movie poster below the movie title</string>
     <string name="releaseDateDetail">Release Date:</string>
     <string name="rateDetail">RATE:</string>
+
+    <string name="content_authority">com.example.kilda.movies</string>
 </resources>

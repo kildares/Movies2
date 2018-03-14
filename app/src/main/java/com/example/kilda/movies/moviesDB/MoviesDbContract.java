@@ -9,7 +9,7 @@ import android.provider.BaseColumns;
 
 public class MoviesDbContract {
 
-    public static final String CONTENT_AUTHORITY = "com.example.android.moviesDB";
+    public static final String CONTENT_AUTHORITY = "com.example.kilda.movies";
 
     public static final Uri BASE_CONTENT_URI = Uri.parse("moviesDB://" + CONTENT_AUTHORITY);
 

@@ -1,7 +1,11 @@
 package com.example.kilda.movies;
 
+import android.app.LoaderManager;
+import android.content.CursorLoader;
 import android.content.Intent;
-import android.os.AsyncTask;
+import android.content.Loader;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
@@ -12,19 +16,26 @@ import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.example.kilda.movies.utilities.MoviesJsonUtils;
-import com.example.kilda.movies.utilities.NetworkUtils;
-
-import java.io.IOException;
-import java.net.URL;
+import com.example.kilda.movies.moviesDB.MoviesDbContract;
 
 
-public class MainActivity extends AppCompatActivity implements MovieListAdapter.MovieListAdapterOnClickHandler{
+public class MainActivity extends AppCompatActivity implements
+        LoaderManager.LoaderCallbacks<Cursor>,
+        MovieListAdapter.MovieListAdapterOnClickHandler{
 
     private RecyclerView mRecyclerView;
     private TextView errorMsg;
-    private ProgressBar loadingBar;
+    private ProgressBar mLoadingBar;
     private MovieListAdapter movieListAdapter;
+
+    private static final int ID_MOVIES_LOADER = 71;
+
+    private static final String[] MOVIES_PROJECTION = {
+            MoviesDbContract.MoviesEntry.COLUMN_MOVIE_ID,
+            MoviesDbContract.MoviesEntry.COLUMN_TITLE,
+            MoviesDbContract.MoviesEntry.COLUMN_FAVORITE
+    };
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,7 +43,7 @@ public class MainActivity extends AppCompatActivity implements MovieListAdapter.
 
         mRecyclerView = findViewById(R.id.recyclerview_movies);
         errorMsg = findViewById(R.id.tv_error_loading);
-        loadingBar = findViewById(R.id.pb_loading_indicator);
+        mLoadingBar = findViewById(R.id.pb_loading_indicator);
 
         GridLayoutManager layoutManager = new GridLayoutManager(MainActivity.this,4);
 
@@ -44,39 +55,19 @@ public class MainActivity extends AppCompatActivity implements MovieListAdapter.
 
         mRecyclerView.setAdapter(movieListAdapter);
 
-        loadMoviesList();
+        showLoadingBar();
+
+        getSupportLoaderManager().initLoader(ID_MOVIES_LOADER,null, (android.support.v4.app.LoaderManager.LoaderCallbacks<Object>) this);
 
     }
 
     public ProgressBar getLoadingBar() {
-        return loadingBar;
+        return mLoadingBar;
     }
 
-    public void setLoadingBar(ProgressBar loadingBar) {
-        this.loadingBar = loadingBar;
+    public void showLoadingBar(){
+        mLoadingBar.setVisibility(mLoadingBar.VISIBLE);
     }
-
-    @Override
-    protected void onPostResume() {
-        super.onPostResume();
-        loadMoviesList();
-    }
-
-    private void loadMoviesList() {
-
-        if(NetworkUtils.isNetworkConnected(this))
-        {
-            showMovieDataView();
-            URL url = (TmdbApi.IsTopRated()) ? TmdbApi.buildTopRatedRequestURL() : TmdbApi.buildPopularRequestURL();
-            new FetchMoviesTask(this).execute(url);
-        }
-        else{
-            showErrorMessage();
-        }
-
-    }
-
-
 
     public void showMovieDataView()
     {
@@ -107,11 +98,11 @@ public class MainActivity extends AppCompatActivity implements MovieListAdapter.
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.mainmenu, menu);
         MenuItem menuTopRated = menu.findItem(R.id.item_top_rated);
+        //TODO fix this
         menuTopRated.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem menuItem) {
                 TmdbApi.SetTopRated(true);
-                loadMoviesList();
                 return true;
             }
         });
@@ -121,7 +112,6 @@ public class MainActivity extends AppCompatActivity implements MovieListAdapter.
             @Override
             public boolean onMenuItemClick(MenuItem menuItem) {
                 TmdbApi.SetTopRated(false);
-                loadMoviesList();
                 return true;
             }
         });
@@ -133,5 +123,40 @@ public class MainActivity extends AppCompatActivity implements MovieListAdapter.
     public boolean onOptionsItemSelected(MenuItem item) {
         startActivity(item.getIntent());
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public Loader<Cursor> onCreateLoader(int loaderId, Bundle bundle) {
+
+        Cursor cursor = null;
+        switch(loaderId){
+            case ID_MOVIES_LOADER:{
+                Uri movieQueryUri = MoviesDbContract.MoviesEntry.CONTENT_URI;
+
+                //Ordering by favorites
+                String sortOrder =MoviesDbContract.MoviesEntry.COLUMN_FAVORITE + " ASC";
+
+                String selection = MoviesDbContract.MoviesEntry.getSqlSelectForFavorite();
+
+                return new CursorLoader(this,movieQueryUri, MOVIES_PROJECTION, selection,null, sortOrder);
+            }
+
+            default:
+                throw new UnsupportedOperationException("Invalid Loader Id");
+        }
+    }
+
+    @Override
+    public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
+
+        movieListAdapter.updateCursor(cursor);
+        if(cursor.getCount() > 0)
+            showMovieDataView();
+    }
+
+
+    @Override
+    public void onLoaderReset(Loader<Cursor> loader) {
+        movieListAdapter.updateCursor(null);
     }
 }
