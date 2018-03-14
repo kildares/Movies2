@@ -98,7 +98,6 @@ public class MainActivity extends AppCompatActivity implements
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.mainmenu, menu);
         MenuItem menuTopRated = menu.findItem(R.id.item_top_rated);
-        //TODO fix this
         menuTopRated.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem menuItem) {
@@ -115,7 +114,26 @@ public class MainActivity extends AppCompatActivity implements
                 return true;
             }
         });
+
+        final MenuItem menuFavorite = menu.findItem(R.id.item_favorites);
+        menuFavorite.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem menuItem) {
+                queryFavorites();
+                return true;
+            }
+        });
         return true;
+    }
+
+    /*
+    * Uses the content resolver to query for the favorite movies, then displays in the screen
+    */
+    public void queryFavorites()
+    {
+        Uri favoriteUri = MoviesDbContract.MoviesEntry.buildMovieFavoriteUri();
+        Cursor cursor = getContentResolver().query(favoriteUri,MOVIES_PROJECTION, " ? = true", new String[]{MoviesDbContract.MoviesEntry.COLUMN_FAVORITE}, null);
+        movieListAdapter.updateCursor(cursor);
     }
 
 

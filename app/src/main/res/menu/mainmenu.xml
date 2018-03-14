@@ -22,4 +22,11 @@
         app:showAsAction="ifRoom"
         />
 
+    <item
+        android:id="@+id/item_favorites"
+        android:orderInCategory="3"
+        android:title="@string/loadFavorites"
+        app:showAsAction="ifRoom"
+        />
+
 </menu>

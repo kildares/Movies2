@@ -27,6 +27,7 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.Movi
 
     public void updateCursor(Cursor cursor) {
         mCursor = cursor;
+        notifyDataSetChanged();
     }
 
     public interface MovieListAdapterOnClickHandler
