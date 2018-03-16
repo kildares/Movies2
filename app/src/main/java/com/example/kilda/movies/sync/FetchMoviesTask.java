@@ -16,48 +16,19 @@ import java.net.URL;
  * Created by kilda on 2/20/2018.
  */
 
-public class FetchMoviesTask extends AsyncTask<URL, Void,Movies[]>
+public class FetchMoviesTask
 {
-    Context CurrentContext;
 
-    public FetchMoviesTask(Context context){
-        this.CurrentContext = context;
-    }
 
-    @Override
-    protected Movies[] doInBackground(URL... params) {
 
-        if(params.length==0)
-            return null;
 
-        URL reqUrl = params[0];
-        Movies[] Movies = null;
-        try {
-            String jsonResponse;
-            jsonResponse = NetworkUtils.getResponseFromHttpUrl(reqUrl);
-            Movies = MoviesJsonUtils.parseJSonToMovies(jsonResponse);
 
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return Movies;
-    }
-
-    @Override
-    protected void onPreExecute()
+    synchronized public static void syncMovies(Context context)
     {
-        super.onPreExecute();
-        ((MainActivity)this.CurrentContext).getLoadingBar().setVisibility(View.VISIBLE);
+
     }
 
-    @Override
-    protected void onPostExecute(Movies[] movies) {
-        ((MainActivity)this.CurrentContext).getLoadingBar().setVisibility(View.INVISIBLE);
-        if (movies != null) {
-            ((MainActivity)this.CurrentContext).showMovieDataView();
-            ((MainActivity)this.CurrentContext).setMovieData(movies);
-        } else {
-            ((MainActivity)this.CurrentContext).showErrorMessage();
-        }
-    }
+
+
+
 }
