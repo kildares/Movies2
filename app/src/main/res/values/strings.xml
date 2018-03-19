@@ -19,4 +19,14 @@
     <string name="rateDetail">RATE:</string>
 
     <string name="content_authority">com.example.kilda.movies</string>
+
+
+    <string name="key_movie_config" translatable="false">key_movie_config</string>
+    <string name="val_movie_config_top" translatable="false">val_top</string>
+    <string name="key_movie_config_pop" translatable="false">val_pop</string>
+    <string name="key_movie_config_fav" translatable="false">val_fav</string>
+
+
+    <string name="log_connectivity_error">Check your network connection</string>
+    <string name="log_movie_api_error">Error while fetching movie DATA</string>
 </resources>

@@ -30,15 +30,22 @@ public class MoviesDbContract {
 
         public static final String COLUMN_MOVIE_ID = "movie_id";
 
+        public static final String COLUMN_MOVIE_SYNOPSIS = "synopsys";
+
+        public static final String COLUMN_MOVIE_AVERAGE = "average";
+
+        public static final String COLUMN_MOVIE_RELEASE_DATE = "date";
+
+        public static final String COLUMN_MOVIE_IMAGE = "image";
+
         public static Uri buildMovieFavoriteUri() {
             return CONTENT_URI.buildUpon()
                     .appendPath("favorite")
                     .build();
         }
 
-
         public static String getSqlSelectForFavorite() {
-            return MoviesEntry.COLUMN_FAVORITE + "= true";
+            return MoviesEntry.COLUMN_FAVORITE + "? != true";
         }
 
     }

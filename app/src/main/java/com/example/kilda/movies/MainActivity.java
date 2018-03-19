@@ -4,9 +4,11 @@ import android.app.LoaderManager;
 import android.content.CursorLoader;
 import android.content.Intent;
 import android.content.Loader;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -17,6 +19,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.example.kilda.movies.moviesDB.MoviesDbContract;
+import com.example.kilda.movies.utilities.TmdbApi;
 
 
 public class MainActivity extends AppCompatActivity implements
@@ -101,7 +104,7 @@ public class MainActivity extends AppCompatActivity implements
         menuTopRated.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem menuItem) {
-                TmdbApi.SetTopRated(true);
+                setMoviesPreferences(TmdbApi.TOP_RATED);
                 return true;
             }
         });
@@ -110,7 +113,7 @@ public class MainActivity extends AppCompatActivity implements
         menuPopularity.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem menuItem) {
-                TmdbApi.SetTopRated(false);
+                setMoviesPreferences(TmdbApi.POPULAR);
                 return true;
             }
         });
@@ -119,11 +122,19 @@ public class MainActivity extends AppCompatActivity implements
         menuFavorite.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem menuItem) {
-                queryFavorites();
+                setMoviesPreferences(TmdbApi.FAVORITES);
                 return true;
             }
         });
         return true;
+    }
+
+    public void setMoviesPreferences(int researchType)
+    {
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putInt(getString(R.string.key_movie_config),researchType);
+        editor.apply();
     }
 
     /*
@@ -175,6 +186,7 @@ public class MainActivity extends AppCompatActivity implements
 
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
+
         movieListAdapter.updateCursor(null);
     }
 }

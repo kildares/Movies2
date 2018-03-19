@@ -1,6 +1,7 @@
-package com.example.kilda.movies;
+package com.example.kilda.movies.utilities;
 
 import android.net.Uri;
+import android.util.Log;
 
 import com.example.kilda.movies.BuildConfig;
 
@@ -26,15 +27,31 @@ public class TmdbApi {
     private static final String POPULAR_URL = "popular";
     private static final String TOP_RATED_URL = "top_rated";
 
-    private static Boolean IS_TOP_RATED = false;
+    public static final int TOP_RATED = 55;
+    public static final int FAVORITES = 56;
+    public static final int POPULAR = 57;
 
-    public static void SetTopRated(Boolean b){
-        TmdbApi.IS_TOP_RATED = b;
-    }
 
-    public static Boolean IsTopRated()
+    public static URL buildMovieQueryURL(int queryType,)
     {
-        return IS_TOP_RATED;
+        URL url = null;
+        switch(queryType){
+            case TOP_RATED:{
+                url = buildTopRatedRequestURL();
+            }
+            case FAVORITES:{
+                Log.d("MOVIE","Favorite option chosen. Querying default TOP_RATED");
+                url = buildTopRatedRequestURL();
+            }
+            case POPULAR:{
+                url = buildPopularRequestURL();
+            }
+            default:{
+                Log.e("MOVIE","Invalid movie query option. Querying default TOP_RATED");
+                url = buildTopRatedRequestURL();
+            }
+        }
+        return url;
     }
 
     public static URL buildTopRatedRequestURL()

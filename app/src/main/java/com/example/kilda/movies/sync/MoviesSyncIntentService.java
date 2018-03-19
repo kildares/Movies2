@@ -16,6 +16,7 @@ public class MoviesSyncIntentService  extends IntentService{
 
     @Override
     protected void onHandleIntent(@Nullable Intent intent) {
-        FetchMoviesTask.sy(this);
+
+        FetchMoviesTask.syncMovies(this);
     }
 }

@@ -8,6 +8,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.example.kilda.movies.utilities.TmdbApi;
 import com.squareup.picasso.Picasso;
 
 /**
