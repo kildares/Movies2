@@ -24,6 +24,17 @@
                 android:value="com.example.kilda.movies.MainActivity" />
         </activity>
 
+        <service
+            android:name=".sync.MoviesSyncIntentService"
+            android:exported="false" />
+
+        <service android:name=".sync.MoviesJobService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.firebase.jobdispatcher.ACTION_EXECUTE"/>
+            </intent-filter>
+        </service>
+
         <provider
             android:name=".moviesDB.MoviesProvider"
             android:authorities="@string/content_authority"

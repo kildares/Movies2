@@ -32,7 +32,7 @@ public class TmdbApi {
     public static final int POPULAR = 57;
 
 
-    public static URL buildMovieQueryURL(int queryType,)
+    public static URL buildMovieQueryURL(int queryType)
     {
         URL url = null;
         switch(queryType){

@@ -1,26 +1,17 @@
 package com.example.kilda.movies.sync;
 
-import android.app.job.JobParameters;
-import android.app.job.JobService;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
-import android.view.View;
 
-import com.example.kilda.movies.MainActivity;
-import com.example.kilda.movies.Movies;
-import com.example.kilda.movies.utilities.MoviesJsonUtils;
-import com.example.kilda.movies.utilities.NetworkUtils;
-
-import java.io.IOException;
-import java.net.URL;
+import com.firebase.jobdispatcher.JobParameters;
 
 /**
  * Created by kilda on 3/13/2018.
  */
 @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-public class MoviesJobService extends JobService
+public class MoviesJobService extends com.firebase.jobdispatcher.JobService
 {
     Context CurrentContext;
     private AsyncTask<Void, Void, Void> mAsyncTask;

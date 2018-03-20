@@ -1,9 +1,9 @@
 package com.example.kilda.movies;
 
-import android.app.LoaderManager;
-import android.content.CursorLoader;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.CursorLoader;
+import android.support.v4.content.Loader;
 import android.content.Intent;
-import android.content.Loader;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.net.Uri;
@@ -19,6 +19,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.example.kilda.movies.moviesDB.MoviesDbContract;
+import com.example.kilda.movies.sync.MoviesSyncUtils;
 import com.example.kilda.movies.utilities.TmdbApi;
 
 
@@ -60,8 +61,9 @@ public class MainActivity extends AppCompatActivity implements
 
         showLoadingBar();
 
-        getSupportLoaderManager().initLoader(ID_MOVIES_LOADER,null, (android.support.v4.app.LoaderManager.LoaderCallbacks<Object>) this);
+        getSupportLoaderManager().initLoader(ID_MOVIES_LOADER,null, this);
 
+        MoviesSyncUtils.initialize(this);
     }
 
     public ProgressBar getLoadingBar() {
@@ -167,7 +169,12 @@ public class MainActivity extends AppCompatActivity implements
 
                 String selection = MoviesDbContract.MoviesEntry.getSqlSelectForFavorite();
 
-                return new CursorLoader(this,movieQueryUri, MOVIES_PROJECTION, selection,null, sortOrder);
+                return new CursorLoader(this,
+                        movieQueryUri,
+                        MOVIES_PROJECTION,
+                        selection,
+                        null,
+                        sortOrder);
             }
 
             default:

@@ -11,6 +11,7 @@ import android.support.annotation.Nullable;
 public class MoviesSyncIntentService  extends IntentService{
 
     public MoviesSyncIntentService() {
+
         super("MoviesSyncIntentService");
     }
 
