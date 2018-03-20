@@ -15,6 +15,7 @@
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -27,18 +28,20 @@
         <service
             android:name=".sync.MoviesSyncIntentService"
             android:exported="false" />
-
-        <service android:name=".sync.MoviesJobService"
+        <service
+            android:name=".sync.MoviesJobService"
             android:exported="false">
             <intent-filter>
-                <action android:name="com.firebase.jobdispatcher.ACTION_EXECUTE"/>
+                <action android:name="com.firebase.jobdispatcher.ACTION_EXECUTE" />
             </intent-filter>
         </service>
 
         <provider
             android:name=".moviesDB.MoviesProvider"
             android:authorities="@string/content_authority"
-            android:exported="false"/>
+            android:exported="false" />
+
+        <activity android:name=".ConfigActivity"></activity>
     </application>
 
 </manifest>

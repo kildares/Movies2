@@ -103,32 +103,16 @@ public class MainActivity extends AppCompatActivity implements
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.mainmenu, menu);
-        MenuItem menuTopRated = menu.findItem(R.id.item_top_rated);
+        MenuItem menuTopRated = menu.findItem(R.id.item_config_menu);
         menuTopRated.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem menuItem) {
-                setMoviesPreferences(TmdbApi.TOP_RATED);
-                return true;
+
+                Intent intent = new Intent(MainActivity.this,ConfigActivity.class);
+                startActivity(intent);
             }
         });
 
-        MenuItem menuPopularity = menu.findItem(R.id.item_popularity);
-        menuPopularity.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem menuItem) {
-                setMoviesPreferences(TmdbApi.POPULAR);
-                return true;
-            }
-        });
-
-        final MenuItem menuFavorite = menu.findItem(R.id.item_favorites);
-        menuFavorite.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem menuItem) {
-                setMoviesPreferences(TmdbApi.FAVORITES);
-                return true;
-            }
-        });
         return true;
     }
 
