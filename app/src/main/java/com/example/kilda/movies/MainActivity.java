@@ -71,6 +71,7 @@ public class MainActivity extends AppCompatActivity implements
     }
 
     public void showLoadingBar(){
+        errorMsg.setVisibility(errorMsg.INVISIBLE);
         mLoadingBar.setVisibility(mLoadingBar.VISIBLE);
     }
 
@@ -145,7 +146,7 @@ public class MainActivity extends AppCompatActivity implements
     public void queryFavorites()
     {
         Uri favoriteUri = MoviesDbContract.MoviesEntry.buildMovieFavoriteUri();
-        Cursor cursor = getContentResolver().query(favoriteUri,MOVIES_PROJECTION, " ? = true", new String[]{MoviesDbContract.MoviesEntry.COLUMN_FAVORITE}, null);
+        Cursor cursor = getContentResolver().query(favoriteUri, MOVIES_PROJECTION, " ? = 1", new String[]{MoviesDbContract.MoviesEntry.COLUMN_FAVORITE}, null);
         movieListAdapter.updateCursor(cursor);
     }
 

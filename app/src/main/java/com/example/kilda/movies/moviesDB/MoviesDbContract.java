@@ -45,7 +45,7 @@ public class MoviesDbContract {
         }
 
         public static String getSqlSelectForFavorite() {
-            return MoviesEntry.COLUMN_FAVORITE + "? != true";
+            return "? != 1";
         }
 
     }

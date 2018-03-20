@@ -119,7 +119,8 @@ public class MoviesProvider extends ContentProvider{
         {
             case CODE_MOVIE:{
                 SQLiteDatabase sqLiteDatabase = mOpenHelper.getWritableDatabase();
-                numRowsDeleted = sqLiteDatabase.delete(MoviesDbContract.MoviesEntry.TABLE_NAME,
+                numRowsDeleted = sqLiteDatabase.delete(
+                        MoviesDbContract.MoviesEntry.TABLE_NAME,
                         MoviesDbContract.MoviesEntry.getSqlSelectForFavorite(),
                         new String[]{MoviesDbContract.MoviesEntry.COLUMN_FAVORITE});
                 return numRowsDeleted;
