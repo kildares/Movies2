@@ -20,7 +20,6 @@ import android.widget.TextView;
 
 import com.example.kilda.movies.moviesDB.MoviesDbContract;
 import com.example.kilda.movies.sync.MoviesSyncUtils;
-import com.example.kilda.movies.utilities.TmdbApi;
 
 
 public class MainActivity extends AppCompatActivity implements
@@ -34,11 +33,23 @@ public class MainActivity extends AppCompatActivity implements
 
     private static final int ID_MOVIES_LOADER = 71;
 
-    private static final String[] MOVIES_PROJECTION = {
+    public static final String[] MOVIES_PROJECTION = {
             MoviesDbContract.MoviesEntry.COLUMN_MOVIE_ID,
             MoviesDbContract.MoviesEntry.COLUMN_TITLE,
-            MoviesDbContract.MoviesEntry.COLUMN_FAVORITE
+            MoviesDbContract.MoviesEntry.COLUMN_FAVORITE,
+            MoviesDbContract.MoviesEntry.COLUMN_MOVIE_AVERAGE,
+            MoviesDbContract.MoviesEntry.COLUMN_MOVIE_IMAGE,
+            MoviesDbContract.MoviesEntry.COLUMN_MOVIE_RELEASE_DATE,
+            MoviesDbContract.MoviesEntry.COLUMN_MOVIE_SYNOPSIS
     };
+
+    public static final int INDEX_MOVIE_ID = 0;
+    public static final int INDEX_MOVIE_TITLE = 1;
+    public static final int INDEX_MOVIE_FAVORITE = 2;
+    public static final int INDEX_MOVIE_AVERAGE = 3;
+    public static final int INDEX_MOVIE_IMAGE = 4;
+    public static final int INDEX_MOVIE_RELEASE_DATE = 5;
+    public static final int INDEX_MOVIE_SYNOPSIS = 6;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,10 +106,6 @@ public class MainActivity extends AppCompatActivity implements
         errorMsg.setVisibility(View.VISIBLE);
     }
 
-    public void setMovieData(Movies[] movies)
-    {
-        movieListAdapter.setMovieData(movies);
-    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
