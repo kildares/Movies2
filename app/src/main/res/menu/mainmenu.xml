@@ -11,7 +11,7 @@
     <item
         android:id="@+id/item_config_menu"
         android:orderInCategory="1"
-        android:title="@string/loadTopRated"
+        android:title="@string/settings_text"
         app:showAsAction="ifRoom"
         />
 </menu>

@@ -9,8 +9,12 @@
     </style>
 
     <style name="ApplicationTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
         <item name="android:textColor">@color/movieTitleDetail</item>
         <item name="android:fontFamily">sans-serif</item>
+        <item name="preferenceTheme">@style/PreferenceThemeOverlay</item>
         <!--<item name="android:spinnerDropDownItemStyle">@style/SpinnerTheme</item>-->
     </style>
 

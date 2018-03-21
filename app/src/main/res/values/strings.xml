@@ -2,9 +2,7 @@
     <string name="app_name">Movies</string>
     <string name="api_key">YOUR_API_KEY_HERE</string>
     <string name="search_text">Search</string>
-    <string name="loadTopRated">Top Rated</string>
-    <string name="loadPopularity">Popularity</string>
-    <string name="loadFavorites">Favorites</string>
+    <string name="settings_text">Settings</string>
     <string name="movieOrder">Order movie by:</string>
     <string name="error">The application encountered an error.\nPlease check if you have internet access.</string>
     <string name="evaluate">Evaluate Movie</string>

@@ -110,6 +110,7 @@ public class MainActivity extends AppCompatActivity implements
 
                 Intent intent = new Intent(MainActivity.this,ConfigActivity.class);
                 startActivity(intent);
+                return true;
             }
         });
 
