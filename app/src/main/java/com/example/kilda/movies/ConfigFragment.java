@@ -62,6 +62,14 @@ public class ConfigFragment extends PreferenceFragmentCompat implements SharedPr
                 MoviesSyncUtils.startImmediateSync(getActivity());
             }
 
+            PreferenceScreen preferenceScreen = getPreferenceScreen();
+            int count = preferenceScreen.getPreferenceCount();
+            for (int i = 0; i < count; i++)
+            {
+                Preference p = preferenceScreen.getPreference(i);
+                String value = sharedPreferences.getString(p.getKey(), "");
+                setPreferenceSummary(p, value);
+            }
 
         }
     }

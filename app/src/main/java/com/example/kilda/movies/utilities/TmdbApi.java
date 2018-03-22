@@ -38,13 +38,16 @@ public class TmdbApi {
         switch(queryType){
             case TOP_RATED:{
                 url = buildTopRatedRequestURL();
+                break;
             }
             case FAVORITES:{
                 Log.d("MOVIE","Favorite option chosen. Querying default TOP_RATED");
                 url = buildTopRatedRequestURL();
+                break;
             }
             case POPULAR:{
                 url = buildPopularRequestURL();
+                break;
             }
             default:{
                 Log.e("MOVIE","Invalid movie query option. Querying default TOP_RATED");

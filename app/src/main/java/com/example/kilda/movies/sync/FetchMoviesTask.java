@@ -36,8 +36,8 @@ public class FetchMoviesTask
         }
 
         try{
-            int queryType = MoviesPreferences.isFavoriteMovies(context)?    TmdbApi.FAVORITES :
-                            MoviesPreferences.isPopularMovies(context) ?    TmdbApi.POPULAR   :
+            int queryType = MoviesPreferences.isFavoriteMovies(context) ?   TmdbApi.FAVORITES :
+                            MoviesPreferences.isPopularMovies(context)  ?   TmdbApi.POPULAR   :
                                                                             TmdbApi.TOP_RATED;
 
             URL moviesRequestUrl = TmdbApi.buildMovieQueryURL(queryType);

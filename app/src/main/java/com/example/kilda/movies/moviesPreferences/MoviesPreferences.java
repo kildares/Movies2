@@ -25,20 +25,23 @@ public class MoviesPreferences {
     {
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
         String option = sp.getString(context.getString(R.string.key_movie_config),context.getString(R.string.pref_type_popular));
-        return option == context.getString(R.string.pref_type_popular);
+        String popular = context.getString(R.string.pref_type_popular);
+        return option.equals(popular);
     }
 
     public static boolean isTopRatedMovies(Context context)
     {
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
         String option = sp.getString(context.getString(R.string.key_movie_config),context.getString(R.string.pref_type_popular));
-        return option == context.getString(R.string.pref_type_top_rated);
+        String top_rated = context.getString(R.string.pref_type_top_rated);
+        return option.equals(top_rated);
     }
 
     public static boolean isFavoriteMovies(Context context)
     {
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
         String option = sp.getString(context.getString(R.string.key_movie_config),context.getString(R.string.pref_type_popular));
-        return option == context.getString(R.string.pref_type_favorites);
+        String favorites = context.getString(R.string.pref_type_favorites);
+        return option.equals(favorites);
     }
 }
