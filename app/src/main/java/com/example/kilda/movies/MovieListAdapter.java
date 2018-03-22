@@ -31,6 +31,8 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.Movi
         notifyDataSetChanged();
     }
 
+
+
     public interface MovieListAdapterOnClickHandler
     {
         void onClick(Movies movie);
@@ -79,6 +81,7 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.Movi
         @Override
         public void onClick(View view) {
             int adapterPosition = getAdapterPosition();
+            mCursor.moveToFirst();
             mCursor.move(adapterPosition);
             Movies movie = new Movies(
                     mCursor.getString(MainActivity.INDEX_MOVIE_ID),

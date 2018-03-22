@@ -13,6 +13,7 @@ import com.example.kilda.movies.MainActivity;
 import com.example.kilda.movies.Movies;
 import com.example.kilda.movies.R;
 import com.example.kilda.movies.moviesDB.MoviesDbContract;
+import com.example.kilda.movies.moviesPreferences.MoviesPreferences;
 import com.example.kilda.movies.utilities.MoviesJsonUtils;
 import com.example.kilda.movies.utilities.NetworkUtils;
 import com.example.kilda.movies.utilities.TmdbApi;
@@ -35,8 +36,9 @@ public class FetchMoviesTask
         }
 
         try{
-            SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
-            int queryType = sharedPreferences.getInt(context.getString(R.string.key_movie_config), TmdbApi.TOP_RATED);
+            int queryType = MoviesPreferences.isFavoriteMovies(context)?    TmdbApi.FAVORITES :
+                            MoviesPreferences.isPopularMovies(context) ?    TmdbApi.POPULAR   :
+                                                                            TmdbApi.TOP_RATED;
 
             URL moviesRequestUrl = TmdbApi.buildMovieQueryURL(queryType);
             String movieData = NetworkUtils.getResponseFromHttpUrl(moviesRequestUrl);

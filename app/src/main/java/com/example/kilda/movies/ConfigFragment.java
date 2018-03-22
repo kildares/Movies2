@@ -9,6 +9,8 @@ import android.support.v7.preference.PreferenceFragmentCompat;
 import android.support.v7.preference.PreferenceScreen;
 
 import com.example.kilda.movies.moviesDB.MoviesDbContract;
+import com.example.kilda.movies.moviesPreferences.MoviesPreferences;
+import com.example.kilda.movies.sync.MoviesSyncUtils;
 
 /**
  * Created by kilda on 3/20/2018.
@@ -50,9 +52,17 @@ public class ConfigFragment extends PreferenceFragmentCompat implements SharedPr
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
 
         Activity activity = getActivity();
-        if (key.equals(getString(R.string.pref_type_label))) {
-            // units have changed. update lists of weather entries accordingly
-            activity.getContentResolver().notifyChange(MoviesDbContract.MoviesEntry.CONTENT_URI, null);
+        if (key.equals(getString(R.string.pref_type_key))) {
+
+            String chosenOption = sharedPreferences.getString(key,getString(R.string.val_movie_config_top));
+
+            MoviesPreferences.updateMovieListType(getActivity(),chosenOption);
+            //If the user selects the favorite movies only, there is no need to sync again. will display
+            if(!chosenOption.equals(getString(R.string.pref_type_favorites))){
+                MoviesSyncUtils.startImmediateSync(getActivity());
+            }
+
+
         }
     }
 

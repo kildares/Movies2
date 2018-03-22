@@ -1,5 +1,8 @@
 package com.example.kilda.movies;
 
+import android.annotation.TargetApi;
+import android.os.Build;
+import android.support.annotation.RequiresApi;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
@@ -12,6 +15,7 @@ import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -74,8 +78,37 @@ public class MainActivity extends AppCompatActivity implements
 
         getSupportLoaderManager().initLoader(ID_MOVIES_LOADER,null, this);
 
+        testHelper();
+
         MoviesSyncUtils.initialize(this);
     }
+
+
+    @TargetApi(Build.VERSION_CODES.O)
+    public void testHelper()
+    {
+        Uri uri = MoviesDbContract.MoviesEntry.CONTENT_URI;
+        Cursor cursor = getContentResolver().query(uri,MOVIES_PROJECTION, null, null);
+
+        if(cursor != null && cursor.getCount() > 0 && cursor.moveToFirst())
+        {
+
+            while(!cursor.isAfterLast())
+            {
+                Log.d("teste",cursor.getString(INDEX_MOVIE_SYNOPSIS));
+                Log.d("teste",cursor.getString(INDEX_MOVIE_TITLE));
+                Log.d("teste",cursor.getString(INDEX_MOVIE_RELEASE_DATE));
+                Log.d("teste",cursor.getString(INDEX_MOVIE_AVERAGE));
+                cursor.moveToNext();
+            }
+        }
+        else{
+            Log.e("teste","cursor is invalid");
+        }
+
+
+    }
+
 
     public ProgressBar getLoadingBar() {
         return mLoadingBar;
@@ -89,6 +122,7 @@ public class MainActivity extends AppCompatActivity implements
     public void showMovieDataView()
     {
         errorMsg.setVisibility(View.INVISIBLE);
+        mLoadingBar.setVisibility(View.INVISIBLE);
         mRecyclerView.setVisibility(View.VISIBLE);
     }
 
@@ -124,14 +158,6 @@ public class MainActivity extends AppCompatActivity implements
         return true;
     }
 
-    public void setMoviesPreferences(int researchType)
-    {
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putInt(getString(R.string.key_movie_config),researchType);
-        editor.apply();
-    }
-
     /*
     * Uses the content resolver to query for the favorite movies, then displays in the screen
     */
@@ -152,7 +178,6 @@ public class MainActivity extends AppCompatActivity implements
     @Override
     public Loader<Cursor> onCreateLoader(int loaderId, Bundle bundle) {
 
-        Cursor cursor = null;
         switch(loaderId){
             case ID_MOVIES_LOADER:{
                 Uri movieQueryUri = MoviesDbContract.MoviesEntry.CONTENT_URI;
@@ -165,9 +190,9 @@ public class MainActivity extends AppCompatActivity implements
                 return new CursorLoader(this,
                         movieQueryUri,
                         MOVIES_PROJECTION,
-                        selection,
                         null,
-                        sortOrder);
+                        null,
+                        null);
             }
 
             default:
@@ -179,6 +204,7 @@ public class MainActivity extends AppCompatActivity implements
     public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
 
         movieListAdapter.updateCursor(cursor);
+        testHelper();
         if(cursor.getCount() > 0)
             showMovieDataView();
     }
