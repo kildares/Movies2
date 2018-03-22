@@ -1,13 +1,13 @@
 package com.example.kilda.movies;
 
 import android.content.Intent;
-import android.graphics.Movie;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.kilda.movies.utilities.TmdbApi;
 import com.squareup.picasso.Picasso;
 
 

@@ -9,24 +9,9 @@
     >
 
     <item
-        android:id="@+id/item_top_rated"
+        android:id="@+id/item_config_menu"
         android:orderInCategory="1"
-        android:title="@string/loadTopRated"
+        android:title="@string/settings_text"
         app:showAsAction="ifRoom"
         />
-
-    <item
-        android:id="@+id/item_popularity"
-        android:orderInCategory="2"
-        android:title="@string/loadPopularity"
-        app:showAsAction="ifRoom"
-        />
-
-    <item
-        android:id="@+id/item_favorites"
-        android:orderInCategory="3"
-        android:title="@string/loadFavorites"
-        app:showAsAction="ifRoom"
-        />
-
 </menu>

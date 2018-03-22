@@ -2,9 +2,7 @@
     <string name="app_name">Movies</string>
     <string name="api_key">YOUR_API_KEY_HERE</string>
     <string name="search_text">Search</string>
-    <string name="loadTopRated">Top Rated</string>
-    <string name="loadPopularity">Popularity</string>
-    <string name="loadFavorites">Favorites</string>
+    <string name="settings_text">Settings</string>
     <string name="movieOrder">Order movie by:</string>
     <string name="error">The application encountered an error.\nPlease check if you have internet access.</string>
     <string name="evaluate">Evaluate Movie</string>
@@ -19,4 +17,19 @@
     <string name="rateDetail">RATE:</string>
 
     <string name="content_authority">com.example.kilda.movies</string>
+
+    <string name="key_movie_config" translatable="false">key_movie_config</string>
+    <string name="val_movie_config_top" translatable="false">val_top</string>
+    <string name="key_movie_config_pop" translatable="false">val_pop</string>
+    <string name="key_movie_config_fav" translatable="false">val_fav</string>
+
+    <string name="pref_type_favorites">Favorites</string>
+    <string name="pref_type_top_rated">Top Rated</string>
+    <string name="pref_type_popular">Popular</string>
+
+    <string name="pref_type_key" translatable="false">type_key</string>
+    <string name="pref_type_label">Search Movies by</string>
+
+    <string name="log_connectivity_error">Check your network connection</string>
+    <string name="log_movie_api_error">Error while fetching movie DATA</string>
 </resources>

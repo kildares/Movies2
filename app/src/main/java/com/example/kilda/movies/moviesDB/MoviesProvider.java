@@ -98,6 +98,13 @@ public class MoviesProvider extends ContentProvider{
         return null;
     }
 
+    /**
+     * content provider function to delete database movie data. Actually supporting removal of non favorite movies
+     * @param uri parameter to decide which type of deletion will use.
+     * @param selection
+     * @param selectionArgs
+     * @return
+     */
     @Override
     public int delete(@NonNull Uri uri, @Nullable String selection, @Nullable String[] selectionArgs) {
 
@@ -112,7 +119,10 @@ public class MoviesProvider extends ContentProvider{
         {
             case CODE_MOVIE:{
                 SQLiteDatabase sqLiteDatabase = mOpenHelper.getWritableDatabase();
-                numRowsDeleted = sqLiteDatabase.delete(MoviesDbContract.MoviesEntry.TABLE_NAME, selection, selectionArgs);
+                numRowsDeleted = sqLiteDatabase.delete(
+                        MoviesDbContract.MoviesEntry.TABLE_NAME,
+                        MoviesDbContract.MoviesEntry.getSqlSelectForFavorite(),
+                        new String[]{MoviesDbContract.MoviesEntry.COLUMN_FAVORITE});
                 return numRowsDeleted;
             }
 

@@ -8,6 +8,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.example.kilda.movies.utilities.TmdbApi;
 import com.squareup.picasso.Picasso;
 
 /**
@@ -17,7 +19,6 @@ import com.squareup.picasso.Picasso;
 public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.MovieListViewHolder>{
 
     private final MovieListAdapterOnClickHandler movieListAdapterOnClickHandler;
-    private Movies[] Movies;
     private Cursor mCursor;
 
     public MovieListAdapter(MovieListAdapterOnClickHandler clickHandler)
@@ -29,6 +30,8 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.Movi
         mCursor = cursor;
         notifyDataSetChanged();
     }
+
+
 
     public interface MovieListAdapterOnClickHandler
     {
@@ -47,19 +50,21 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.Movi
 
     @Override
     public void onBindViewHolder(MovieListViewHolder holder, int position) {
-        String movieImg = Movies[position].getImage();
+        mCursor.moveToPosition(position);
+
+        String movieImg = mCursor.getString(MainActivity.INDEX_MOVIE_IMAGE);
         String movieImgUrl = TmdbApi.getImageUrl(movieImg);
         Picasso.with(holder.movieImg.getContext()).load(movieImgUrl).into(holder.movieImg);
 
-        holder.movieName.setText(Movies[position].getName());
+        holder.movieName.setText( mCursor.getString(MainActivity.INDEX_MOVIE_TITLE));
     }
 
     @Override
     public int getItemCount()
     {
-        if(Movies == null)
+        if(mCursor == null)
             return 0;
-        return Movies.length;
+        return mCursor.getCount();
     }
 
     public class MovieListViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
@@ -76,16 +81,18 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.Movi
         @Override
         public void onClick(View view) {
             int adapterPosition = getAdapterPosition();
-            Movies movie = Movies[adapterPosition];
+            mCursor.moveToFirst();
+            mCursor.move(adapterPosition);
+            Movies movie = new Movies(
+                    mCursor.getString(MainActivity.INDEX_MOVIE_ID),
+                    mCursor.getString(MainActivity.INDEX_MOVIE_TITLE),
+                    mCursor.getString(MainActivity.INDEX_MOVIE_RELEASE_DATE),
+                    mCursor.getString(MainActivity.INDEX_MOVIE_IMAGE),
+                    mCursor.getString(MainActivity.INDEX_MOVIE_SYNOPSIS),
+                    mCursor.getString(MainActivity.INDEX_MOVIE_AVERAGE))
+                    ;
             movieListAdapterOnClickHandler.onClick(movie);
         }
     }
-
-    public void setMovieData(Movies[] moviesData)
-    {
-        this.Movies = moviesData;
-        notifyDataSetChanged();
-    }
-
 
 }

@@ -1,6 +1,9 @@
 package com.example.kilda.movies.utilities;
 
+import android.content.ContentValues;
+
 import com.example.kilda.movies.Movies;
+import com.example.kilda.movies.moviesDB.MoviesDbContract;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -20,14 +23,16 @@ public class MoviesJsonUtils {
     private static final String ID = "id";
     private static final String AVG = "vote_average";
 
-    public static Movies[] parseJSonToMovies(String jsonStr)
+    public static ContentValues[] parseJSonToMovies(String jsonStr)
     {
+
         try {
             JSONObject json = new JSONObject(jsonStr);
 
             JSONArray jsonArray = json.getJSONArray(MoviesJsonUtils.results);
 
-            Movies[] Movies = new Movies[jsonArray.length()];
+            ContentValues[] moviesContentValues = new ContentValues[jsonArray.length()];
+
 
             for(int i=0 ; i < jsonArray.length() ; i++)
             {
@@ -40,12 +45,22 @@ public class MoviesJsonUtils {
                 String id = jsonObject.getString(MoviesJsonUtils.ID);
                 String avg = jsonObject.getString(MoviesJsonUtils.AVG);
 
-                Movies[i] = new Movies(id,name, year, image, synopsis,avg);
+                ContentValues movieContentValue = new ContentValues();
+                movieContentValue.put(MoviesDbContract.MoviesEntry.COLUMN_TITLE,name);
+                movieContentValue.put(MoviesDbContract.MoviesEntry.COLUMN_MOVIE_ID,id);
+                movieContentValue.put(MoviesDbContract.MoviesEntry.COLUMN_FAVORITE, 0);
+                movieContentValue.put(MoviesDbContract.MoviesEntry.COLUMN_MOVIE_AVERAGE, avg);
+                movieContentValue.put(MoviesDbContract.MoviesEntry.COLUMN_MOVIE_SYNOPSIS, synopsis);
+                movieContentValue.put(MoviesDbContract.MoviesEntry.COLUMN_MOVIE_IMAGE, image);
+                movieContentValue.put(MoviesDbContract.MoviesEntry.COLUMN_MOVIE_RELEASE_DATE, year);
+
+                moviesContentValues[i] = movieContentValue;
             }
-            return Movies;
+            return moviesContentValues;
         } catch (JSONException e) {
             e.printStackTrace();
         }
+
         return null;
     }
 }
