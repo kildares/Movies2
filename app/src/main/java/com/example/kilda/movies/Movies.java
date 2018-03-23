@@ -3,6 +3,8 @@ package com.example.kilda.movies;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.example.kilda.movies.moviesDB.MoviesDbContract;
+
 /**
  * Created by kilda on 2/12/2018.
  */
@@ -14,8 +16,9 @@ public class Movies implements Parcelable{
     private String synopsis;
     private String movieId;
     private String average;
+    private String favorite;
 
-    public Movies(String movieId, String name, String year, String image, String synopsis,String average)
+    public Movies(String movieId, String name, String year, String image, String synopsis,String average, String favorite)
     {
         this.movieId = movieId;
         this.name=name;
@@ -23,7 +26,29 @@ public class Movies implements Parcelable{
         this.image=image;
         this.synopsis=synopsis;
         this.average=average;
+        this.favorite=favorite;
     }
+
+    public static final String[] MOVIES_PROJECTION = {
+            MoviesDbContract.MoviesEntry.COLUMN_MOVIE_ID,
+            MoviesDbContract.MoviesEntry.COLUMN_TITLE,
+            MoviesDbContract.MoviesEntry.COLUMN_FAVORITE,
+            MoviesDbContract.MoviesEntry.COLUMN_MOVIE_AVERAGE,
+            MoviesDbContract.MoviesEntry.COLUMN_MOVIE_IMAGE,
+            MoviesDbContract.MoviesEntry.COLUMN_MOVIE_RELEASE_DATE,
+            MoviesDbContract.MoviesEntry.COLUMN_MOVIE_SYNOPSIS
+    };
+
+    public static final int INDEX_MOVIE_ID = 0;
+    public static final int INDEX_MOVIE_TITLE = 1;
+    public static final int INDEX_MOVIE_FAVORITE = 2;
+    public static final int INDEX_MOVIE_AVERAGE = 3;
+    public static final int INDEX_MOVIE_IMAGE = 4;
+    public static final int INDEX_MOVIE_RELEASE_DATE = 5;
+    public static final int INDEX_MOVIE_SYNOPSIS = 6;
+
+
+
 
     private Movies(Parcel parcel) {
 
@@ -33,6 +58,7 @@ public class Movies implements Parcelable{
         this.synopsis = parcel.readString();
         this.movieId = parcel.readString();
         this.average = parcel.readString();
+        this.favorite=parcel.readString();
     }
 
     public String getImage() {
@@ -109,5 +135,20 @@ public class Movies implements Parcelable{
         parcel.writeString(this.synopsis);
         parcel.writeString(this.movieId);
         parcel.writeString(this.average);
+        parcel.writeString(this.favorite);
+    }
+
+    public String getFavorite() {
+        return favorite;
+    }
+
+    public boolean isFavorite()
+    {
+        return getFavorite().equals("1");
+    }
+
+    public void
+    setFavorite(String favorite) {
+        this.favorite = favorite;
     }
 }

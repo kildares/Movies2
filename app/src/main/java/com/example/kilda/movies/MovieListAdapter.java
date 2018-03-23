@@ -52,11 +52,11 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.Movi
     public void onBindViewHolder(MovieListViewHolder holder, int position) {
         mCursor.moveToPosition(position);
 
-        String movieImg = mCursor.getString(MainActivity.INDEX_MOVIE_IMAGE);
+        String movieImg = mCursor.getString(Movies.INDEX_MOVIE_IMAGE);
         String movieImgUrl = TmdbApi.getImageUrl(movieImg);
         Picasso.with(holder.movieImg.getContext()).load(movieImgUrl).into(holder.movieImg);
 
-        holder.movieName.setText( mCursor.getString(MainActivity.INDEX_MOVIE_TITLE));
+        holder.movieName.setText( mCursor.getString(Movies.INDEX_MOVIE_TITLE));
     }
 
     @Override
@@ -84,12 +84,13 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.Movi
             mCursor.moveToFirst();
             mCursor.move(adapterPosition);
             Movies movie = new Movies(
-                    mCursor.getString(MainActivity.INDEX_MOVIE_ID),
-                    mCursor.getString(MainActivity.INDEX_MOVIE_TITLE),
-                    mCursor.getString(MainActivity.INDEX_MOVIE_RELEASE_DATE),
-                    mCursor.getString(MainActivity.INDEX_MOVIE_IMAGE),
-                    mCursor.getString(MainActivity.INDEX_MOVIE_SYNOPSIS),
-                    mCursor.getString(MainActivity.INDEX_MOVIE_AVERAGE))
+                    mCursor.getString(Movies.INDEX_MOVIE_ID),
+                    mCursor.getString(Movies.INDEX_MOVIE_TITLE),
+                    mCursor.getString(Movies.INDEX_MOVIE_RELEASE_DATE),
+                    mCursor.getString(Movies.INDEX_MOVIE_IMAGE),
+                    mCursor.getString(Movies.INDEX_MOVIE_SYNOPSIS),
+                    mCursor.getString(Movies.INDEX_MOVIE_AVERAGE),
+                    mCursor.getString(Movies.INDEX_MOVIE_FAVORITE))
                     ;
             movieListAdapterOnClickHandler.onClick(movie);
         }

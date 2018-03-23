@@ -46,7 +46,16 @@ public class FetchMoviesTask
 
             if(movies != null && movies.length > 0){
                 ContentResolver moviesContentResolver = context.getContentResolver();
-                moviesContentResolver.delete(MoviesDbContract.MoviesEntry.CONTENT_URI,null,null);
+
+
+
+                int deletedRows = moviesContentResolver.delete(MoviesDbContract.MoviesEntry.CONTENT_URI,
+                        "favorite != 1",
+                        null);
+
+                Log.d("Movies","Number of deleted rows: " + Integer.toString(deletedRows));
+
+                MainActivity.testHelper(context.getContentResolver());
 
                 moviesContentResolver.bulkInsert(MoviesDbContract.MoviesEntry.CONTENT_URI, movies);
             }

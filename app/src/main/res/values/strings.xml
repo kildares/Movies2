@@ -16,6 +16,9 @@
     <string name="releaseDateDetail">Release Date:</string>
     <string name="rateDetail">RATE:</string>
 
+    <string name="favorite">Favorite</string>
+    <string name="unfavorite">Unfavorite</string>
+
     <string name="content_authority">com.example.kilda.movies</string>
 
     <string name="key_movie_config" translatable="false">key_movie_config</string>

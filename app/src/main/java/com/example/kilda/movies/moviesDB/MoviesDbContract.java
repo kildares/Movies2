@@ -2,6 +2,7 @@ package com.example.kilda.movies.moviesDB;
 
 import android.net.Uri;
 import android.provider.BaseColumns;
+import android.util.Log;
 
 /**
  * Created by kilda on 3/12/2018.
@@ -14,7 +15,8 @@ public class MoviesDbContract {
     public static final Uri BASE_CONTENT_URI = Uri.parse("content://" + CONTENT_AUTHORITY);
 
     public static final String PATH_MOVIE = "movie";
-    public static final String PATH_MOVIE_FAVORITE = "movie/favorite";
+    public static final String PATH_MOVIE_FAVORITE = "favorite";
+    public static final String PATH_MOVIE_ID = "#";
 
     public static final class MoviesEntry implements BaseColumns
     {
@@ -44,8 +46,20 @@ public class MoviesDbContract {
                     .build();
         }
 
+        public static Uri buildMovieFavoriteIdUri(String id)
+        {
+            Uri uri = CONTENT_URI.buildUpon().appendPath(PATH_MOVIE_FAVORITE).appendPath(id).build();
+            Log.d("Favorite Id URI",uri.toString());
+            return uri;
+        }
+
         public static String getSqlSelectForFavorite() {
             return "? != 1";
+        }
+
+        public static String getSqlForUpdateFavorite()
+        {
+            return COLUMN_MOVIE_ID + "= ?";
         }
 
     }

@@ -1,17 +1,18 @@
 package com.example.kilda.movies;
 
 import android.annotation.TargetApi;
+import android.content.ContentResolver;
 import android.os.Build;
-import android.support.annotation.RequiresApi;
+
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.content.Intent;
-import android.content.SharedPreferences;
+
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
+
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -37,23 +38,6 @@ public class MainActivity extends AppCompatActivity implements
 
     private static final int ID_MOVIES_LOADER = 71;
 
-    public static final String[] MOVIES_PROJECTION = {
-            MoviesDbContract.MoviesEntry.COLUMN_MOVIE_ID,
-            MoviesDbContract.MoviesEntry.COLUMN_TITLE,
-            MoviesDbContract.MoviesEntry.COLUMN_FAVORITE,
-            MoviesDbContract.MoviesEntry.COLUMN_MOVIE_AVERAGE,
-            MoviesDbContract.MoviesEntry.COLUMN_MOVIE_IMAGE,
-            MoviesDbContract.MoviesEntry.COLUMN_MOVIE_RELEASE_DATE,
-            MoviesDbContract.MoviesEntry.COLUMN_MOVIE_SYNOPSIS
-    };
-
-    public static final int INDEX_MOVIE_ID = 0;
-    public static final int INDEX_MOVIE_TITLE = 1;
-    public static final int INDEX_MOVIE_FAVORITE = 2;
-    public static final int INDEX_MOVIE_AVERAGE = 3;
-    public static final int INDEX_MOVIE_IMAGE = 4;
-    public static final int INDEX_MOVIE_RELEASE_DATE = 5;
-    public static final int INDEX_MOVIE_SYNOPSIS = 6;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,27 +62,22 @@ public class MainActivity extends AppCompatActivity implements
 
         getSupportLoaderManager().initLoader(ID_MOVIES_LOADER,null, this);
 
-        testHelper();
-
         MoviesSyncUtils.initialize(this);
     }
 
 
     @TargetApi(Build.VERSION_CODES.O)
-    public void testHelper()
+    public static void testHelper(ContentResolver contentResolver)
     {
         Uri uri = MoviesDbContract.MoviesEntry.CONTENT_URI;
-        Cursor cursor = getContentResolver().query(uri,MOVIES_PROJECTION, null, null);
+        Cursor cursor = contentResolver.query(uri,Movies.MOVIES_PROJECTION, null, null);
 
         if(cursor != null && cursor.getCount() > 0 && cursor.moveToFirst())
         {
-
             while(!cursor.isAfterLast())
             {
-                Log.d("teste",cursor.getString(INDEX_MOVIE_SYNOPSIS));
-                Log.d("teste",cursor.getString(INDEX_MOVIE_TITLE));
-                Log.d("teste",cursor.getString(INDEX_MOVIE_RELEASE_DATE));
-                Log.d("teste",cursor.getString(INDEX_MOVIE_AVERAGE));
+                Log.d("teste",cursor.getString(Movies.INDEX_MOVIE_TITLE));
+                Log.d("teste",cursor.getString(Movies.INDEX_MOVIE_FAVORITE));
                 cursor.moveToNext();
             }
         }
@@ -164,7 +143,7 @@ public class MainActivity extends AppCompatActivity implements
     public void queryFavorites()
     {
         Uri favoriteUri = MoviesDbContract.MoviesEntry.buildMovieFavoriteUri();
-        Cursor cursor = getContentResolver().query(favoriteUri, MOVIES_PROJECTION, " ? = 1", new String[]{MoviesDbContract.MoviesEntry.COLUMN_FAVORITE}, null);
+        Cursor cursor = getContentResolver().query(favoriteUri, Movies.MOVIES_PROJECTION, " ? = 1", new String[]{MoviesDbContract.MoviesEntry.COLUMN_FAVORITE}, null);
         movieListAdapter.updateCursor(cursor);
     }
 
@@ -189,7 +168,7 @@ public class MainActivity extends AppCompatActivity implements
 
                 return new CursorLoader(this,
                         movieQueryUri,
-                        MOVIES_PROJECTION,
+                        Movies.MOVIES_PROJECTION,
                         null,
                         null,
                         null);
@@ -204,7 +183,6 @@ public class MainActivity extends AppCompatActivity implements
     public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
 
         movieListAdapter.updateCursor(cursor);
-        testHelper();
         if(cursor.getCount() > 0)
             showMovieDataView();
     }

@@ -61,6 +61,9 @@ public class ConfigFragment extends PreferenceFragmentCompat implements SharedPr
             if(!chosenOption.equals(getString(R.string.pref_type_favorites))){
                 MoviesSyncUtils.startImmediateSync(getActivity());
             }
+            else{
+
+            }
 
             PreferenceScreen preferenceScreen = getPreferenceScreen();
             int count = preferenceScreen.getPreferenceCount();
