@@ -24,6 +24,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.example.kilda.movies.moviesDB.MoviesDbContract;
+import com.example.kilda.movies.moviesPreferences.MoviesPreferences;
 import com.example.kilda.movies.sync.MoviesSyncUtils;
 
 
@@ -89,10 +90,6 @@ public class MainActivity extends AppCompatActivity implements
     }
 
 
-    public ProgressBar getLoadingBar() {
-        return mLoadingBar;
-    }
-
     public void showLoadingBar(){
         errorMsg.setVisibility(errorMsg.INVISIBLE);
         mLoadingBar.setVisibility(mLoadingBar.VISIBLE);
@@ -137,17 +134,6 @@ public class MainActivity extends AppCompatActivity implements
         return true;
     }
 
-    /*
-    * Uses the content resolver to query for the favorite movies, then displays in the screen
-    */
-    public void queryFavorites()
-    {
-        Uri favoriteUri = MoviesDbContract.MoviesEntry.buildMovieFavoriteUri();
-        Cursor cursor = getContentResolver().query(favoriteUri, Movies.MOVIES_PROJECTION, " ? = 1", new String[]{MoviesDbContract.MoviesEntry.COLUMN_FAVORITE}, null);
-        movieListAdapter.updateCursor(cursor);
-    }
-
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         startActivity(item.getIntent());
@@ -161,15 +147,13 @@ public class MainActivity extends AppCompatActivity implements
             case ID_MOVIES_LOADER:{
                 Uri movieQueryUri = MoviesDbContract.MoviesEntry.CONTENT_URI;
 
-                //Ordering by favorites
-                String sortOrder =MoviesDbContract.MoviesEntry.COLUMN_FAVORITE + " ASC";
-
-                String selection = MoviesDbContract.MoviesEntry.getSqlSelectForFavorite();
+                String selection = MoviesPreferences.isFavoriteMovies(this) ? " favorite = 1 " :
+                                                                                            null;
 
                 return new CursorLoader(this,
                         movieQueryUri,
                         Movies.MOVIES_PROJECTION,
-                        null,
+                        selection,
                         null,
                         null);
             }
@@ -181,7 +165,6 @@ public class MainActivity extends AppCompatActivity implements
 
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
-
         movieListAdapter.updateCursor(cursor);
         if(cursor.getCount() > 0)
             showMovieDataView();
@@ -190,7 +173,8 @@ public class MainActivity extends AppCompatActivity implements
 
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
-
         movieListAdapter.updateCursor(null);
     }
+
+
 }

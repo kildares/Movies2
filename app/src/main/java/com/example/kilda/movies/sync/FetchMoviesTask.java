@@ -35,19 +35,42 @@ public class FetchMoviesTask
             return;
         }
 
-        try{
-            int queryType = MoviesPreferences.isFavoriteMovies(context) ?   TmdbApi.FAVORITES :
-                            MoviesPreferences.isPopularMovies(context)  ?   TmdbApi.POPULAR   :
-                                                                            TmdbApi.TOP_RATED;
+        int queryType = MoviesPreferences.isFavoriteMovies(context) ?   TmdbApi.FAVORITES :
+                MoviesPreferences.isPopularMovies(context)  ?   TmdbApi.POPULAR   :
+                        TmdbApi.TOP_RATED;
 
+        //In the case of favorite movies, there is no need to go online
+        switch(queryType){
+            case TmdbApi.FAVORITES:{
+                queryFavorites(context);
+                break;
+            }
+            default :{
+                queryAPI(context, queryType);
+            }
+        }
+    }
+
+    private static void queryFavorites(Context context) {
+
+        ContentResolver moviesContentResolver = context.getContentResolver();
+
+        int deletedRows = moviesContentResolver.delete(MoviesDbContract.MoviesEntry.CONTENT_URI,
+                "favorite != 1",
+                null);
+
+        Log.d("queryFavorites","returned " + Integer.toString(deletedRows));
+    }
+
+    private static void queryAPI(Context context, int queryType)
+    {
+        try{
             URL moviesRequestUrl = TmdbApi.buildMovieQueryURL(queryType);
             String movieData = NetworkUtils.getResponseFromHttpUrl(moviesRequestUrl);
             ContentValues[] movies = MoviesJsonUtils.parseJSonToMovies(movieData);
 
             if(movies != null && movies.length > 0){
                 ContentResolver moviesContentResolver = context.getContentResolver();
-
-
 
                 int deletedRows = moviesContentResolver.delete(MoviesDbContract.MoviesEntry.CONTENT_URI,
                         "favorite != 1",
@@ -64,6 +87,7 @@ public class FetchMoviesTask
             e.printStackTrace();
             Log.e("Movie",context.getString(R.string.log_movie_api_error));
         }
+
     }
 
 }

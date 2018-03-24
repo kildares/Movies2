@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#9E9E9E</color>
-    <color name="colorPrimaryDark">#212121</color>
-    <color name="black">#000000</color>
-    <color name="colorAccent">#FAFAFA</color>
-    <color name="movieTitleDetail">#FAFAFA</color>
-    <color name="movieTitle">#212121</color>
-    <color name="SpinnerTextColor">#000000</color>
+    <color name="colorPrimary">#37474f</color>
+    <color name="colorPrimaryDark">#102027</color>
+    <color name="colorPrimaryLight">#62727b</color>
+    <color name="colorPrimaryText">#000000</color>
+    <color name="colorAccent">#FFAB40</color>
+    <color name="colorFavorite">#FAFAFA</color>
+
 
 </resources>

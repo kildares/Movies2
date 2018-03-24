@@ -8,7 +8,7 @@
     android:layout_marginEnd="@dimen/leftBorder"
     android:layout_marginTop="@dimen/leftBorder"
     android:layout_marginBottom="@dimen/leftBorder"
-    android:background="@android:color/holo_orange_light"
+    android:background="@drawable/border"
     >
 
 
@@ -16,19 +16,15 @@
             android:id="@+id/tv_movie_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:fontFamily="sans-serif"
             android:text="@string/mockName"
-            android:textAlignment="center"
-            android:textAllCaps="false"
-            android:textColor="@color/movieTitle"
-            android:textSize="@dimen/movieTitle"
-            android:textStyle="bold"
-            android:background="@android:color/holo_orange_light"
+
             app:layout_constraintBottom_toTopOf="@+id/view_movie_img"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent" />
+            app:layout_constraintRight_toRightOf="parent"
+            style="@style/ReyclerStyle"
+            />
 
         <ImageView
             android:id="@+id/view_movie_img"
@@ -41,7 +37,6 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:srcCompat="@drawable/like"
-
             />
 
 

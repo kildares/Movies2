@@ -111,7 +111,7 @@ public class MoviesSyncUtils {
             public void run() {
 
                 /* URI for every row of movie data in our movie table*/
-                Uri forecastQueryUri = MoviesDbContract.MoviesEntry.CONTENT_URI;
+                Uri queryUri = MoviesDbContract.MoviesEntry.CONTENT_URI;
 
                 /*
                  * Since this query is going to be used only as a check to see if we have any
@@ -121,9 +121,9 @@ public class MoviesSyncUtils {
                  */
                 String[] projectionColumns = {MoviesDbContract.MoviesEntry._ID};
 
-                /* Here, we perform the query to check to see if we have any weather data */
+                /* Here, we perform the query to check to see if we have any data */
                 Cursor cursor = context.getContentResolver().query(
-                        forecastQueryUri,
+                        queryUri,
                         projectionColumns,
                         null,
                         null,

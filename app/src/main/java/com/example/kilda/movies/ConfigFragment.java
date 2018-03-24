@@ -57,13 +57,8 @@ public class ConfigFragment extends PreferenceFragmentCompat implements SharedPr
             String chosenOption = sharedPreferences.getString(key,getString(R.string.val_movie_config_top));
 
             MoviesPreferences.updateMovieListType(getActivity(),chosenOption);
-            //If the user selects the favorite movies only, there is no need to sync again. will display
-            if(!chosenOption.equals(getString(R.string.pref_type_favorites))){
-                MoviesSyncUtils.startImmediateSync(getActivity());
-            }
-            else{
-
-            }
+            //If the user selects the favorite movies only, there is no need to sync again. Will reload the
+            MoviesSyncUtils.startImmediateSync(getActivity());
 
             PreferenceScreen preferenceScreen = getPreferenceScreen();
             int count = preferenceScreen.getPreferenceCount();

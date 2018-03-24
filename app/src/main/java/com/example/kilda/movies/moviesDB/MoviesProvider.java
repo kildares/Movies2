@@ -70,7 +70,6 @@ public class MoviesProvider extends ContentProvider{
 
             case CODE_MOVIE_FAVORITE:
             {
-                String favoriteString = uri.getLastPathSegment();
                 String[] selectionArguments = new String[]{"1"};
 
                 cursor = mOpenHelper.getReadableDatabase().query(MoviesDbContract.MoviesEntry.TABLE_NAME,
@@ -128,6 +127,10 @@ public class MoviesProvider extends ContentProvider{
                         MoviesDbContract.MoviesEntry.TABLE_NAME,
                         selection,
                         selectionArgs);
+
+                if(numRowsDeleted > 0)
+                    getContext().getContentResolver().notifyChange(uri, null);
+
                 return numRowsDeleted;
             }
 
