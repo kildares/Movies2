@@ -8,7 +8,7 @@
     android:layout_marginEnd="@dimen/leftBorder"
     android:layout_marginTop="@dimen/leftBorder"
     android:layout_marginBottom="@dimen/leftBorder"
-    android:background="@drawable/border"
+    android:background="@drawable/border_favorite"
     android:id="@+id/recycler_item_view"
     >
 

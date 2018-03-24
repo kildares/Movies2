@@ -5,7 +5,7 @@
     <color name="colorPrimaryLight">#62727b</color>
     <color name="colorPrimaryText">#000000</color>
     <color name="colorAccent">#FFAB40</color>
-    <color name="colorFavorite">#FAFAFA</color>
+    <color name="colorNormal">#FAFAFA</color>
 
 
 </resources>

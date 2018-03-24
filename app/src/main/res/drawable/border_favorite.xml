@@ -5,7 +5,7 @@
     >
     <gradient
         android:startColor="@color/colorNormal"
-        android:endColor="@color/colorAccent"
+        android:endColor="@color/colorPrimaryDark"
         android:angle="270"/>
 
 

@@ -14,6 +14,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.kilda.movies.moviesDB.MoviesDbContract;
+import com.example.kilda.movies.sync.MoviesSyncUtils;
 import com.example.kilda.movies.utilities.TmdbApi;
 import com.squareup.picasso.Picasso;
 
@@ -85,7 +86,7 @@ public class MovieDetail extends AppCompatActivity{
                 String isFav = isFavorite ? "0" : "1";
 
                 ContentValues contentValues = new ContentValues();
-                contentValues.put(MoviesDbContract.MoviesEntry.COLUMN_MOVIE_ID,detailedMovie.getMovieId());
+                contentValues.put(MoviesDbContract.MoviesEntry.COLUMN_MOVIE_ID, detailedMovie.getMovieId());
                 contentValues.put(MoviesDbContract.MoviesEntry.COLUMN_FAVORITE,isFav);
 
                 getContentResolver().update(MoviesDbContract.MoviesEntry.buildMovieFavoriteIdUri(detailedMovie.getMovieId()),
@@ -93,6 +94,8 @@ public class MovieDetail extends AppCompatActivity{
                         MoviesDbContract.MoviesEntry.getSqlForUpdateFavorite(),
                         new String[]{detailedMovie.getMovieId()}
                         );
+
+                MoviesSyncUtils.startImmediateSync(MovieDetail.this);
 
                 detailedMovie.setFavorite(isFav);
 
