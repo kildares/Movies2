@@ -1,16 +1,10 @@
 <resources>
     <string name="app_name">Movies</string>
     <string name="api_key">YOUR_API_KEY_HERE</string>
-    <string name="search_text">Search</string>
     <string name="settings_text">Settings</string>
-    <string name="movieOrder">Order movie by:</string>
     <string name="error">The application encountered an error.\nPlease check if you have internet access.</string>
-    <string name="evaluate">Evaluate Movie</string>
     <string name="mockName">MOVIE TITLE</string>
-    <string name="mockYear">1999</string>
     <string name="mockSynopsis">HERE COME MY MOVIE SYNOPSIS CONTAINING SOME WORDS WITHOUT SPELLING CORRECTLY I\'M DEEPLY SORRY SIR</string>
-    <string name="rateGood">Good</string>
-    <string name="rateBad">Bad</string>
     <string name="description_detail_poster">This image contains the poster of the chosen movie</string>
     <string name="description_movie_img">This image contains a movie poster below the movie title</string>
     <string name="releaseDateDetail">Release Date:</string>
@@ -31,8 +25,6 @@
 
     <string name="key_movie_config" translatable="false">key_movie_config</string>
     <string name="val_movie_config_top" translatable="false">val_top</string>
-    <string name="key_movie_config_pop" translatable="false">val_pop</string>
-    <string name="key_movie_config_fav" translatable="false">val_fav</string>
 
     <string name="pref_type_favorites">Favorites</string>
     <string name="pref_type_top_rated">Top Rated</string>

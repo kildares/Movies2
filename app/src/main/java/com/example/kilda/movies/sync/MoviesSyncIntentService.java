@@ -21,32 +21,40 @@ public class MoviesSyncIntentService  extends IntentService{
     @Override
     protected void onHandleIntent(@Nullable Intent intent) {
 
-        Bundle bundle = intent.getExtras();
-        String type = null;
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
-            type = bundle.getString(MoviesJobService.KEY_JOB);
+        try{
+            Bundle bundle = intent.getExtras();
 
-            switch(type) {
-                case TmdbApi.GET_TRAILER_STR: {
-                    MoviesAsyncTask moviesAsyncTask = new MoviesAsyncTask(this);
+            String type;
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+                type = bundle.getString(MoviesJobService.KEY_JOB);
 
-                    String movieId = bundle.getString(MoviesJobService.KEY_MOVIE_ID);
-                    moviesAsyncTask.execute(new String[]{TmdbApi.GET_TRAILER_STR,movieId});
-                    break;
-                }
-                case TmdbApi.GET_REVIEW_STR: {
-                    MoviesAsyncTask moviesAsyncTask = new MoviesAsyncTask(this);
-                    String movieId = bundle.getString(MoviesJobService.KEY_MOVIE_ID);
-                    moviesAsyncTask.execute(new String[]{TmdbApi.GET_REVIEW_STR,movieId});
-                    break;
-                }
-                default: {
-                    FetchMoviesTask.syncMovies(this);
+                switch(type) {
+                    case TmdbApi.GET_TRAILER_STR: {
+                        MoviesAsyncTask moviesAsyncTask = new MoviesAsyncTask(this);
+
+                        String movieId = bundle.getString(MoviesJobService.KEY_MOVIE_ID);
+                        moviesAsyncTask.execute(new String[]{TmdbApi.GET_TRAILER_STR,movieId});
+                        break;
+                    }
+                    case TmdbApi.GET_REVIEW_STR: {
+                        MoviesAsyncTask moviesAsyncTask = new MoviesAsyncTask(this);
+                        String movieId = bundle.getString(MoviesJobService.KEY_MOVIE_ID);
+                        moviesAsyncTask.execute(new String[]{TmdbApi.GET_REVIEW_STR,movieId});
+                        break;
+                    }
+                    default: {
+                        FetchMoviesTask.syncMovies(this);
+                    }
                 }
             }
+            else
+                FetchMoviesTask.syncMovies(this);
+
+        }catch(NullPointerException ex){
+            ex.printStackTrace();
+            return;
         }
-        else
-            FetchMoviesTask.syncMovies(this);
+
 
 
     }

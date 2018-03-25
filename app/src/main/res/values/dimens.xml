@@ -12,6 +12,5 @@
     <dimen name="moviePosterWidth">187dp</dimen>
     <dimen name="moviePosterHeight">181dp</dimen>
     <dimen name="configTextSize">18sp</dimen>
-    <dimen name="configTopBorder">16dp</dimen>
     <dimen name="paddingHorizontal">4dp</dimen>
 </resources>

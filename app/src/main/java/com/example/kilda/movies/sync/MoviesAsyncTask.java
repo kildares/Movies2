@@ -14,8 +14,8 @@ public class MoviesAsyncTask extends AsyncTask<String, Void, Void>
 
     private OnMoviesJobFinishedListener mListener;
 
-    JobParameters jobParameters;
-    Context mContext;
+    private JobParameters jobParameters;
+    private Context mContext;
 
     public MoviesAsyncTask(Context context){
         this.mContext = context;
@@ -69,7 +69,7 @@ public class MoviesAsyncTask extends AsyncTask<String, Void, Void>
         mListener = listener;
     }
 
-    public void onJobFinishedEvent()
+    private void onJobFinishedEvent()
     {
         if(mListener != null)
             mListener.onMoviesJobFinished(jobParameters);

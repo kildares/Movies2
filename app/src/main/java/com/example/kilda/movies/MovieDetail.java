@@ -138,7 +138,7 @@ public class MovieDetail extends AppCompatActivity implements View.OnClickListen
         }
     }
 
-    public void loadReview()
+    private void loadReview()
     {
         String movieReview = this.detailedMovie.getTrailer();
         String errorMsg = null;
@@ -180,7 +180,7 @@ public class MovieDetail extends AppCompatActivity implements View.OnClickListen
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
-    public void loadTrailer()
+    private void loadTrailer()
     {
         String movieTrailer = this.detailedMovie.getTrailer();
         String errorMsg = null;

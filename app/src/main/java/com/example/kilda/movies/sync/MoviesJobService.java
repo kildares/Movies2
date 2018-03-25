@@ -1,13 +1,13 @@
 package com.example.kilda.movies.sync;
 
-    import android.content.Context;
-    import android.os.AsyncTask;
+import android.content.Context;
+import android.os.AsyncTask;
 import android.os.Build;
-    import android.os.Bundle;
-    import android.support.annotation.RequiresApi;
-    import android.util.Log;
+import android.os.Bundle;
+import android.support.annotation.RequiresApi;
 
-    import com.example.kilda.movies.utilities.TmdbApi;
+
+import com.example.kilda.movies.utilities.TmdbApi;
 import com.firebase.jobdispatcher.JobParameters;
 
 /**
@@ -36,16 +36,21 @@ public class MoviesJobService extends com.firebase.jobdispatcher.JobService impl
         moviesAsyncTask.setOnMoviesJobFinishedListener(this);
         mAsyncTask = moviesAsyncTask;
 
-        switch(job){
-            case TmdbApi.GET_REVIEW_STR:{
-                String movieId = extras.getString(KEY_MOVIE_ID);
-                mAsyncTask.execute(new String[]{job,movieId});
-                break;
+        try{
+            switch(job){
+                case TmdbApi.GET_REVIEW_STR:{
+                    String movieId = extras.getString(KEY_MOVIE_ID);
+                    mAsyncTask.execute(new String[]{job,movieId});
+                    break;
+                }
+                default:{
+                    throw new UnsupportedOperationException("Unsupported fetch type");
+                }
             }
-            default:{
-                throw new UnsupportedOperationException("Unsupported fetch type");
-            }
+        }catch(NullPointerException e){
+            throw new UnsupportedOperationException("Unsupported key type");
         }
+
         return true;
     }
 

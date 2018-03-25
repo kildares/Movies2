@@ -29,7 +29,7 @@ public class FetchMoviesTask
         }
 
         URL trailerRequest = TmdbApi.buildTrailerRequestURL(movieId);
-        String movieData = null;
+        String movieData;
         try {
             movieData = NetworkUtils.getResponseFromHttpUrl(trailerRequest);
             ContentValues contentValues = MoviesJsonUtils.parseJSonToMovieTrailer(movieData);
@@ -48,7 +48,7 @@ public class FetchMoviesTask
         }
 
         URL trailerRequest = TmdbApi.buildReviewRequestURL(movieId);
-        String movieData = null;
+        String movieData;
         try {
             movieData = NetworkUtils.getResponseFromHttpUrl(trailerRequest);
             ContentValues contentValues = MoviesJsonUtils.parseJSonToMovieReview(movieData);

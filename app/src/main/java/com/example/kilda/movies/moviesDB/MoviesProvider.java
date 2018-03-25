@@ -133,7 +133,12 @@ public class MoviesProvider extends ContentProvider{
             default: throw new UnsupportedOperationException("Unknown Uri: "+ uri);
         }
 
-        cursor.setNotificationUri(getContext().getContentResolver(), uri);
+        try{
+            cursor.setNotificationUri(getContext().getContentResolver(), uri);
+        }catch(NullPointerException e){
+            e.printStackTrace();
+        }
+
         return cursor;
     }
 
@@ -175,9 +180,12 @@ public class MoviesProvider extends ContentProvider{
                         selection,
                         selectionArgs);
 
-                if(numRowsDeleted > 0)
-                    getContext().getContentResolver().notifyChange(uri, null);
-
+                try{
+                    if(numRowsDeleted > 0)
+                        getContext().getContentResolver().notifyChange(uri, null);
+                }catch(NullPointerException e){
+                    e.printStackTrace();
+                }
                 return numRowsDeleted;
             }
 
@@ -191,7 +199,7 @@ public class MoviesProvider extends ContentProvider{
         SQLiteDatabase sqLiteDatabase = mOpenHelper.getWritableDatabase();
 
         int match = sUriMatcher.match(uri);
-        int result = 0;
+        int result;
         switch(match)
         {
             case CODE_MOVIE_FAVORITE_FILTER:{
@@ -230,8 +238,13 @@ public class MoviesProvider extends ContentProvider{
 
             default: throw new UnsupportedOperationException("Not valid Uri");
         }
-        if(result > 0)
-            getContext().getContentResolver().notifyChange(uri, null);
+
+        try{
+            if(result > 0)
+                getContext().getContentResolver().notifyChange(uri, null);
+        }catch(NullPointerException e){
+            e.printStackTrace();
+        }
         return result;
     }
 

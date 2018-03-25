@@ -5,10 +5,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Build;
-import android.os.Bundle;
 import android.support.annotation.NonNull;
-
-import com.example.kilda.movies.MainActivity;
 import com.example.kilda.movies.moviesDB.MoviesDbContract;
 import com.example.kilda.movies.utilities.TmdbApi;
 import com.firebase.jobdispatcher.Constraint;

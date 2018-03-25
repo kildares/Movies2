@@ -43,7 +43,7 @@ public class TmdbApi {
 
     public static URL buildMovieQueryURL(int queryType)
     {
-        URL url = null;
+        URL url;
         switch(queryType){
             case TOP_RATED:{
                 url = buildTopRatedRequestURL();

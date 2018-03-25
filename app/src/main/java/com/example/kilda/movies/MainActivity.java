@@ -1,7 +1,5 @@
 package com.example.kilda.movies;
 
-import android.annotation.TargetApi;
-import android.content.ContentResolver;
 import android.os.Build;
 
 import android.support.v4.app.LoaderManager;
@@ -16,7 +14,6 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -71,35 +68,35 @@ public class MainActivity extends AppCompatActivity implements
     }
 
 
-    @TargetApi(Build.VERSION_CODES.O)
-    public static void testHelper(ContentResolver contentResolver)
-    {
-        Uri uri = MoviesDbContract.MoviesEntry.CONTENT_URI;
-        Cursor cursor = contentResolver.query(uri, Movies.MOVIES_PROJECTION, null, null);
+//    @TargetApi(Build.VERSION_CODES.O)
+//    public static void testHelper(ContentResolver contentResolver)
+//    {
+//        Uri uri = MoviesDbContract.MoviesEntry.CONTENT_URI;
+//        Cursor cursor = contentResolver.query(uri, Movies.MOVIES_PROJECTION, null, null);
+//
+//        if(cursor != null && cursor.getCount() > 0 && cursor.moveToFirst())
+//        {
+//            while(!cursor.isAfterLast())
+//            {
+//                Log.d("teste",cursor.getString(Movies.INDEX_MOVIE_TITLE));
+//                Log.d("teste",cursor.getString(Movies.INDEX_MOVIE_FAVORITE));
+//                cursor.moveToNext();
+//            }
+//        }
+//        else{
+//            Log.e("teste","cursor is invalid");
+//        }
+//
+//
+//    }
 
-        if(cursor != null && cursor.getCount() > 0 && cursor.moveToFirst())
-        {
-            while(!cursor.isAfterLast())
-            {
-                Log.d("teste",cursor.getString(Movies.INDEX_MOVIE_TITLE));
-                Log.d("teste",cursor.getString(Movies.INDEX_MOVIE_FAVORITE));
-                cursor.moveToNext();
-            }
-        }
-        else{
-            Log.e("teste","cursor is invalid");
-        }
 
-
-    }
-
-
-    public void showLoadingBar(){
+    private void showLoadingBar(){
         errorMsg.setVisibility(errorMsg.INVISIBLE);
         mLoadingBar.setVisibility(mLoadingBar.VISIBLE);
     }
 
-    public void showMovieDataView()
+    private void showMovieDataView()
     {
         errorMsg.setVisibility(View.INVISIBLE);
         mLoadingBar.setVisibility(View.INVISIBLE);
