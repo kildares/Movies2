@@ -15,6 +15,7 @@
         <item name="android:textColor">@color/colorPrimaryText</item>
         <item name="android:fontFamily">sans-serif</item>
         <item name="preferenceTheme">@style/PreferenceThemeOverlay</item>
+        <item name="buttonStyle">@style/custom_button</item>
     </style>
 
     <style name="ReyclerStyle" parent ="ApplicationTheme">
@@ -24,6 +25,10 @@
         <item name="android:textAllCaps">false</item>
         <item name="android:textAlignment">center</item>
         <item name="android:fontFamily">sans-serif</item>
+    </style>
+
+    <style name="custom_button" parent="Widget.AppCompat.Button.Borderless">
+        <item name="android:background">@color/colorAccent</item>
 
     </style>
 
