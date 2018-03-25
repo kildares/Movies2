@@ -3,14 +3,9 @@ package com.example.kilda.movies.sync;
 import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
-import android.content.SharedPreferences;
-import android.os.AsyncTask;
-import android.preference.PreferenceManager;
 import android.util.Log;
-import android.view.View;
 
 import com.example.kilda.movies.MainActivity;
-import com.example.kilda.movies.Movies;
 import com.example.kilda.movies.R;
 import com.example.kilda.movies.moviesDB.MoviesDbContract;
 import com.example.kilda.movies.moviesPreferences.MoviesPreferences;
@@ -27,6 +22,22 @@ import java.net.URL;
 
 public class FetchMoviesTask
 {
+
+    synchronized public static void fetchTrailer(Context context,String trailerId){
+        URL trailerRequest = TmdbApi.buildTrailerRequestURL(trailerId);
+        try {
+            String movieData = NetworkUtils.getResponseFromHttpUrl(moviesRequestUrl);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
+    }
+
+    synchronized public static void fetchReview(Context context,String reviewID){
+
+    }
+
 
     synchronized public static void syncMovies(Context context)
     {

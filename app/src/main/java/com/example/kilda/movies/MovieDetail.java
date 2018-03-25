@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -19,13 +20,15 @@ import com.example.kilda.movies.utilities.TmdbApi;
 import com.squareup.picasso.Picasso;
 
 
-public class MovieDetail extends AppCompatActivity{
+public class MovieDetail extends AppCompatActivity implements View.OnClickListener {
 
     private ImageView MovieImg;
     private TextView tvName;
     private TextView tvYear;
     private TextView tvSynopsis;
     private TextView tvAverage;
+    private Button btTrailer;
+    private Button btReview;
 
     private Movies detailedMovie;
 
@@ -39,6 +42,12 @@ public class MovieDetail extends AppCompatActivity{
         this.tvYear = findViewById(R.id.tv_detail_year);
         this.tvSynopsis = findViewById(R.id.tv_detail_synopsis);
         this.tvAverage = findViewById(R.id.tv_vote_avg);
+        this.btTrailer = findViewById(R.id.bt_trailer);
+        this.btReview = findViewById(R.id.bt_review);
+
+
+        btTrailer.setOnClickListener(this);
+        btReview.setOnClickListener(this);
 
         Intent intent = getIntent();
         Bundle bdl = intent.getExtras();
@@ -48,7 +57,6 @@ public class MovieDetail extends AppCompatActivity{
             this.tvYear.setText(formatTvYear(mv.getYear()));
             this.tvSynopsis.setText(mv.getSynopsis());
             this.tvAverage.setText(mv.getAverage());
-            this.tvAverage.setText(mv.getFavorite());
 
             this.detailedMovie = mv;
 
@@ -110,4 +118,13 @@ public class MovieDetail extends AppCompatActivity{
     }
 
 
+    @Override
+    public void onClick(View view) {
+        if(view.getId() == btReview.getId()){
+
+        }
+        else if(view.getId() == btTrailer.getId()){
+
+        }
+    }
 }

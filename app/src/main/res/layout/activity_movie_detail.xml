@@ -87,4 +87,21 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/iv_detail_poster" />
 
+    <Button
+        android:id="@+id/bt_trailer"
+        android:text="@string/trailer_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_detail_synopsis"
+        />
+    <Button
+        android:id="@+id/bt_review"
+        android:text="@string/review_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/bt_trailer"
+        />
+
 </android.support.constraint.ConstraintLayout>

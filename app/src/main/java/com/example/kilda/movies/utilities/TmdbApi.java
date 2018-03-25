@@ -31,6 +31,14 @@ public class TmdbApi {
     public static final int FAVORITES = 56;
     public static final int POPULAR = 57;
 
+    public static final int GET_MOVIES_INT = 1;
+    public static final int GET_TRAILER_INT = 2;
+    public static final int GET_REVIEW_INT = 3;
+
+    public static final String GET_MOVIES_STR = "1";
+    public static final String GET_TRAILER_STR = "2";
+    public static final String GET_REVIEW_STR = "3";
+
 
     public static URL buildMovieQueryURL(int queryType)
     {

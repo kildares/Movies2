@@ -104,6 +104,9 @@ public class MainActivity extends AppCompatActivity implements
 
     @Override
     public void onClick(Movies movie) {
+
+
+
         Intent intent = new Intent(MainActivity.this,MovieDetail.class);
         intent.putExtra("movie",movie);
 

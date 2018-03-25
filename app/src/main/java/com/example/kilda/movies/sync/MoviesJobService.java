@@ -1,28 +1,30 @@
 package com.example.kilda.movies.sync;
 
-import android.content.Context;
-import android.os.AsyncTask;
+    import android.os.AsyncTask;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
 
+import com.example.kilda.movies.utilities.TmdbApi;
 import com.firebase.jobdispatcher.JobParameters;
 
 /**
  * Created by kilda on 3/13/2018.
  */
 @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-public class MoviesJobService extends com.firebase.jobdispatcher.JobService
+public class MoviesJobService extends com.firebase.jobdispatcher.JobService implements OnMoviesJobFinishedListener
 {
-    Context CurrentContext;
-    private AsyncTask<Void, Void, Void> mAsyncTask;
+
+    private AsyncTask<String, Void, Void> mAsyncTask;
 
     @Override
     public boolean onStartJob(JobParameters jobParameters) {
 
-        MoviesAsyncTask moviesAsyncTask = new MoviesAsyncTask();
+        MoviesAsyncTask moviesAsyncTask = new MoviesAsyncTask(getApplicationContext());
         moviesAsyncTask.setJobParameters(jobParameters);
+        moviesAsyncTask.setOnMoviesJobFinishedListener(this);
         mAsyncTask = moviesAsyncTask;
-        mAsyncTask.execute();
+
+        mAsyncTask.execute(TmdbApi.GET_MOVIES_STR);
         return true;
     }
 
@@ -33,30 +35,22 @@ public class MoviesJobService extends com.firebase.jobdispatcher.JobService
         return true;
     }
 
-    private class MoviesAsyncTask extends AsyncTask<Void, Void, Void>
+    public void getTrailers(String movieId)
     {
-        JobParameters jobParameters;
+        mAsyncTask = new MoviesAsyncTask(this);
+        mAsyncTask.execute(new String[]{TmdbApi.GET_TRAILER_STR, movieId});
+    }
 
-        public void setJobParameters(JobParameters jobParameters){
-            this.jobParameters = jobParameters;
-        }
+    public void getTrailers(String movieId)
+    {
+        mAsyncTask = new MoviesAsyncTask(this);
+        mAsyncTask.execute(new String[]{TmdbApi.GET_TRAILER_STR, movieId});
+    }
 
-        @Override
-        protected Void doInBackground(Void... voids) {
 
-            Context context = getApplicationContext();
-
-            FetchMoviesTask.syncMovies(context);
-
-            jobFinished(jobParameters,false);
-
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Void aVoid)
-        {
-            jobFinished(jobParameters, false);
-        }
+    @Override
+    public void onJobFinished(JobParameters jobParameters)
+    {
+        jobFinished(jobParameters,false);
     }
 }

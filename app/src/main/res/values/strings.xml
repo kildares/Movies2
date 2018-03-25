@@ -15,6 +15,8 @@
     <string name="description_movie_img">This image contains a movie poster below the movie title</string>
     <string name="releaseDateDetail">Release Date:</string>
     <string name="rateDetail">RATE:</string>
+    <string name="trailer_button">Watch Trailer</string>
+    <string name="review_button">See review</string>
 
     <string name="favorite">Favorite</string>
     <string name="unfavorite">Unfavorite</string>

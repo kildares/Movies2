@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="detailTitleWidth">136dp</dimen>
-    <dimen name="leftBorder">4dp</dimen>
+    <dimen name="leftBorder">2dp</dimen>
     <dimen name="topBorder">8dp</dimen>
-    <dimen name="leftBorderFromPoster">8dp</dimen>
+    <dimen name="leftBorderFromPoster">2dp</dimen>
     <dimen name="RightBorder">8dp</dimen>
     <dimen name="bottomBorder">8dp</dimen>
     <dimen name="movieTitle">12sp</dimen>
