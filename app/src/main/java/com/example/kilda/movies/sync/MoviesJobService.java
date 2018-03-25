@@ -1,5 +1,6 @@
 package com.example.kilda.movies.sync;
 
+    import android.content.Context;
     import android.os.AsyncTask;
 import android.os.Build;
     import android.os.Bundle;
@@ -19,6 +20,11 @@ public class MoviesJobService extends com.firebase.jobdispatcher.JobService impl
     public static final String KEY_MOVIE_ID = "key_movie_id";
     private AsyncTask<String, Void, Void> mAsyncTask;
 
+    public MoviesJobService(Context context){
+        this.mAsyncTask = new MoviesAsyncTask(context);
+    }
+
+
     @Override
     public boolean onStartJob(JobParameters jobParameters) {
 
@@ -31,16 +37,6 @@ public class MoviesJobService extends com.firebase.jobdispatcher.JobService impl
         mAsyncTask = moviesAsyncTask;
 
         switch(job){
-            case TmdbApi.GET_MOVIES_STR:{
-                mAsyncTask.execute(job);
-                break;
-            }
-            case TmdbApi.GET_TRAILER_STR:{
-                Log.d("Movies","Async Trailer");
-                String movieId = extras.getString(KEY_MOVIE_ID);
-                mAsyncTask.execute(new String[]{job,movieId});
-                break;
-            }
             case TmdbApi.GET_REVIEW_STR:{
                 String movieId = extras.getString(KEY_MOVIE_ID);
                 mAsyncTask.execute(new String[]{job,movieId});

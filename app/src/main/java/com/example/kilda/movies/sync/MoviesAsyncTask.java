@@ -71,7 +71,8 @@ public class MoviesAsyncTask extends AsyncTask<String, Void, Void>
 
     public void onJobFinishedEvent()
     {
-        mListener.onMoviesJobFinished(jobParameters);
+        if(mListener != null)
+            mListener.onMoviesJobFinished(jobParameters);
     }
 
     @Override

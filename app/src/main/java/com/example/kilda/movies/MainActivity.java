@@ -115,11 +115,13 @@ public class MainActivity extends AppCompatActivity implements
 
             final Intent trailerIntent = new Intent(MainActivity.this, MoviesSyncIntentService.class);
             trailerIntent.putExtra(MoviesJobService.KEY_JOB, TmdbApi.GET_TRAILER_STR);
+            trailerIntent.putExtra(MoviesJobService.KEY_MOVIE_ID, movie.getMovieId());
 
             MoviesSyncUtils.syncMovieData(this,trailerIntent);
 
             Intent reviewIntent = new Intent(MainActivity.this, MoviesSyncIntentService.class);
-            trailerIntent.putExtra(MoviesJobService.KEY_JOB, TmdbApi.GET_REVIEW_STR);
+            reviewIntent.putExtra(MoviesJobService.KEY_JOB, TmdbApi.GET_REVIEW_STR);
+            reviewIntent.putExtra(MoviesJobService.KEY_MOVIE_ID, movie.getMovieId());
             MoviesSyncUtils.syncMovieData(this, reviewIntent);
 
         }

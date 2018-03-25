@@ -79,7 +79,7 @@ public class FetchMoviesTask
             case TmdbApi.GET_REVIEW_INT:
             {
                 int result = context.getContentResolver().update(
-                        MoviesDbContract.MoviesEntry.buildMovieTrailerUri(movieId),
+                        MoviesDbContract.MoviesEntry.buildMovieReviewUri(movieId),
                         movieData,
                         MoviesDbContract.MoviesEntry.getSqlForIdUpdate(),
                         new String[]{movieId});

@@ -162,24 +162,24 @@ public class MovieDetail extends AppCompatActivity implements View.OnClickListen
                 cursor.moveToFirst();
 
                 Log.d("Cursor",DatabaseUtils.dumpCursorToString(cursor));
-                //movieTrailer = cursor.getString(Movies.INDEX_MOVIE_TRAILER);
+                movieTrailer = cursor.getString(0);
             }
         }
 
-//        if(errorMsg != null)
-//            Toast.makeText(this,errorMsg,Toast.LENGTH_LONG).show();
-//        else
-//        {
-//            Uri uri = Uri.parse("https://youtube.com/watch?v=" + movieTrailer);
-//            Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-//
-//            if(intent.resolveActivity(getPackageManager()) != null){
-//                startActivity(intent);
-//            }
-//            else{
-//                errorMsg = getString(R.string.error_no_app_to_resolve);
-//                Toast.makeText(this,errorMsg,Toast.LENGTH_LONG).show();
-//            }
-//        }
+        if(errorMsg != null)
+            Toast.makeText(this,errorMsg,Toast.LENGTH_LONG).show();
+        else
+        {
+            Uri uri = Uri.parse("https://youtube.com/watch?v=" + movieTrailer);
+            Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+
+            if(intent.resolveActivity(getPackageManager()) != null){
+                startActivity(intent);
+            }
+            else{
+                errorMsg = getString(R.string.error_no_app_to_resolve);
+                Toast.makeText(this,errorMsg,Toast.LENGTH_LONG).show();
+            }
+        }
     }
 }

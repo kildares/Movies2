@@ -201,6 +201,7 @@ public class MoviesProvider extends ContentProvider{
                         strings);
 
                 Log.d("MOVIES","UPDATED MOVIE FAVORITE");
+                break;
             }
 
             case CODE_MOVIE_TRAILER:
@@ -211,6 +212,7 @@ public class MoviesProvider extends ContentProvider{
                         strings);
 
                 Log.d("MOVIES","UPDATED MOVIE FAVORITE");
+                break;
             }
 
             default: throw new UnsupportedOperationException("Not valid Uri");
