@@ -18,6 +18,10 @@
     <string name="trailer_button">Watch Trailer</string>
     <string name="review_button">See review</string>
 
+    <string name="error_review_unavailable">I\'m sorry, the review is unavailable</string>
+    <string name="error_trailer_unavailable">I\'m sorry, the trailer is unavailable</string>
+    <string name="error_no_app_to_resolve">I\'m sorry, no app available to load</string>
+
     <string name="favorite">Favorite</string>
     <string name="unfavorite">Unfavorite</string>
 
@@ -37,4 +41,5 @@
 
     <string name="log_connectivity_error">Check your network connection</string>
     <string name="log_movie_api_error">Error while fetching movie DATA</string>
+
 </resources>

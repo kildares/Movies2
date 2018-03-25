@@ -4,9 +4,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
+import android.os.Build;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 
+import com.example.kilda.movies.MainActivity;
 import com.example.kilda.movies.moviesDB.MoviesDbContract;
+import com.example.kilda.movies.utilities.TmdbApi;
 import com.firebase.jobdispatcher.Constraint;
 import com.firebase.jobdispatcher.Driver;
 import com.firebase.jobdispatcher.FirebaseJobDispatcher;
@@ -153,7 +157,28 @@ public class MoviesSyncUtils {
      */
     public static void startImmediateSync(@NonNull final Context context) {
         Intent intentToSyncImmediately = new Intent(context, MoviesSyncIntentService.class);
+        //configures the sync type
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            intentToSyncImmediately.putExtra(MoviesJobService.
+                    KEY_JOB, TmdbApi.GET_MOVIES_STR);
+        }
         context.startService(intentToSyncImmediately);
+    }
+
+
+    synchronized public static void syncMovieData(final Context context, final Intent intent)
+    {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            final Intent trailerIntent = new Intent(context, MoviesSyncIntentService.class);
+            trailerIntent.putExtra(MoviesJobService.KEY_JOB, TmdbApi.GET_TRAILER_STR);
+
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    context.startService(intent);
+                }
+            }).run();
+        }
     }
 
 }

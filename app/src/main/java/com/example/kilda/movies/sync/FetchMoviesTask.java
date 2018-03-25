@@ -21,7 +21,13 @@ import java.net.URL;
 public class FetchMoviesTask
 {
 
-    synchronized public static String fetchTrailer(Context context,String movieId){
+    synchronized public static void fetchTrailer(Context context,String movieId){
+
+        if(!NetworkUtils.isNetworkConnected(context)){
+            Log.e("Movies",context.getString(R.string.log_connectivity_error));
+            return;
+        }
+
         URL trailerRequest = TmdbApi.buildTrailerRequestURL(movieId);
         String movieData = null;
         try {
@@ -32,10 +38,15 @@ public class FetchMoviesTask
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return movieData;
     }
 
-    synchronized public static String fetchReview(Context context,String movieId){
+    synchronized public static void fetchReview(Context context,String movieId){
+
+        if(!NetworkUtils.isNetworkConnected(context)){
+            Log.e("Movies",context.getString(R.string.log_connectivity_error));
+            return;
+        }
+
         URL trailerRequest = TmdbApi.buildReviewRequestURL(movieId);
         String movieData = null;
         try {
@@ -46,7 +57,6 @@ public class FetchMoviesTask
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return movieData;
     }
 
     /**
@@ -59,9 +69,9 @@ public class FetchMoviesTask
         switch(updateType) {
             case TmdbApi.GET_TRAILER_INT: {
                 int result = context.getContentResolver().update(
-                        MoviesDbContract.buildMovieTrailerUri(movieId),
+                        MoviesDbContract.MoviesEntry.buildMovieTrailerUri(movieId),
                         movieData,
-                        MoviesDbContract.getSqlForIdUpdate(),
+                        MoviesDbContract.MoviesEntry.getSqlForIdUpdate(),
                         new String[]{movieId});
                 Log.d("Movies", "update movie traailers: " + Integer.toString(result));
                 break;
@@ -69,22 +79,17 @@ public class FetchMoviesTask
             case TmdbApi.GET_REVIEW_INT:
             {
                 int result = context.getContentResolver().update(
-                        MoviesDbContract.buildMovieTrailerUri(movieId),
+                        MoviesDbContract.MoviesEntry.buildMovieTrailerUri(movieId),
                         movieData,
-                        MoviesDbContract.getSqlForIdUpdate(),
+                        MoviesDbContract.MoviesEntry.getSqlForIdUpdate(),
                         new String[]{movieId});
                 Log.d("Movies", "update movie reviews: " + Integer.toString(result));
                 break;
             }
 
-            defaut:
+            default:
             {
-                int result = context.getContentResolver().update(
-                        MoviesDbContract.buildMovieTrailerUri(movieId),
-                        movieData,
-                        MoviesDbContract.getSqlForIdUpdate(),
-                        new String[]{movieId});
-                Log.d("Movies", "update movie data: " + Integer.toString(result));
+                throw new UnsupportedOperationException("INVALID UPDATE OPTION");
             }
         }
     }

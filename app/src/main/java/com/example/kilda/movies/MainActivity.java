@@ -23,9 +23,13 @@ import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.example.kilda.movies.entities.Movies;
 import com.example.kilda.movies.moviesDB.MoviesDbContract;
 import com.example.kilda.movies.moviesPreferences.MoviesPreferences;
+import com.example.kilda.movies.sync.MoviesJobService;
+import com.example.kilda.movies.sync.MoviesSyncIntentService;
 import com.example.kilda.movies.sync.MoviesSyncUtils;
+import com.example.kilda.movies.utilities.TmdbApi;
 
 
 public class MainActivity extends AppCompatActivity implements
@@ -71,7 +75,7 @@ public class MainActivity extends AppCompatActivity implements
     public static void testHelper(ContentResolver contentResolver)
     {
         Uri uri = MoviesDbContract.MoviesEntry.CONTENT_URI;
-        Cursor cursor = contentResolver.query(uri,Movies.MOVIES_PROJECTION, null, null);
+        Cursor cursor = contentResolver.query(uri, Movies.MOVIES_PROJECTION, null, null);
 
         if(cursor != null && cursor.getCount() > 0 && cursor.moveToFirst())
         {
@@ -106,10 +110,21 @@ public class MainActivity extends AppCompatActivity implements
     public void onClick(Movies movie) {
 
 
+        //When loading the detail screen, the application will fetch the trailer and review data
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
 
+            final Intent trailerIntent = new Intent(MainActivity.this, MoviesSyncIntentService.class);
+            trailerIntent.putExtra(MoviesJobService.KEY_JOB, TmdbApi.GET_TRAILER_STR);
+
+            MoviesSyncUtils.syncMovieData(this,trailerIntent);
+
+            Intent reviewIntent = new Intent(MainActivity.this, MoviesSyncIntentService.class);
+            trailerIntent.putExtra(MoviesJobService.KEY_JOB, TmdbApi.GET_REVIEW_STR);
+            MoviesSyncUtils.syncMovieData(this, reviewIntent);
+
+        }
         Intent intent = new Intent(MainActivity.this,MovieDetail.class);
         intent.putExtra("movie",movie);
-
         startActivity(intent);
     }
 

@@ -2,7 +2,6 @@ package com.example.kilda.movies.utilities;
 
 import android.content.ContentValues;
 
-import com.example.kilda.movies.Movies;
 import com.example.kilda.movies.moviesDB.MoviesDbContract;
 
 import org.json.JSONArray;
@@ -81,6 +80,7 @@ public class MoviesJsonUtils {
             String review = jsonObject.getString(MoviesJsonUtils.REVIEW_CONTENT);
 
             contentValues.put(MoviesDbContract.MoviesEntry.COLUMN_MOVIE_REVIEW, review);
+            return contentValues;
 
         } catch (JSONException e) {
             e.printStackTrace();
@@ -101,6 +101,7 @@ public class MoviesJsonUtils {
             JSONObject jsonObject = jsonArray.getJSONObject(0);
             String trailer = jsonObject.getString(MoviesJsonUtils.TRAILER_KEY);
             contentValues.put(MoviesDbContract.MoviesEntry.COLUMN_MOVIE_TRAILER, trailer);
+            return contentValues;
 
         } catch (JSONException e) {
             e.printStackTrace();

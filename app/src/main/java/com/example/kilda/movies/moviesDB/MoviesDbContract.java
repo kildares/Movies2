@@ -20,8 +20,6 @@ public class MoviesDbContract {
     public static final String PATH_MOVIE_REVIEW = "review";
     public static final String PATH_MOVIE_ID = "#";
 
-
-
     public static final class MoviesEntry implements BaseColumns
     {
         public static final Uri CONTENT_URI = BASE_CONTENT_URI.buildUpon()
@@ -47,6 +45,15 @@ public class MoviesDbContract {
         public static final String COLUMN_MOVIE_REVIEW = "review";
 
         public static final String COLUMN_MOVIE_TRAILER = "trailer";
+
+
+        public static Uri buildQueryTrailerUri(String id)
+        {
+            Uri uri = BASE_CONTENT_URI.buildUpon()
+                    .appendPath(PATH_MOVIE).appendPath(PATH_MOVIE_TRAILER).appendPath(id)
+                    .build();
+            return uri;
+        }
 
 
         public static Uri buildMovieFavoriteIdUri(String id)

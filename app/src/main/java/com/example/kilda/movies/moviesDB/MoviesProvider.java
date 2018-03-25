@@ -55,7 +55,8 @@ public class MoviesProvider extends ContentProvider{
                         MoviesDbContract.PATH_MOVIE_ID,
                 MoviesProvider.CODE_MOVIE_TRAILER);
 
-        matcher.addURI(authority,MoviesDbContract.PATH_MOVIE+ "/#/" +, CODE_MOVIE_TRAILER);
+        matcher.addURI(authority,MoviesDbContract.PATH_MOVIE+ "/" + MoviesDbContract.PATH_MOVIE_TRAILER + "/#", CODE_MOVIE_TRAILER);
+        matcher.addURI(authority,MoviesDbContract.PATH_MOVIE+ "/" + MoviesDbContract.PATH_MOVIE_REVIEW + "/#", CODE_MOVIE_REVIEW);
 
         return matcher;
     }
@@ -71,8 +72,8 @@ public class MoviesProvider extends ContentProvider{
     public Cursor query(@NonNull Uri uri, @Nullable String[] projection, @Nullable String selection, @Nullable String[] selectionArgs, @Nullable String sortOrder) {
 
         Cursor cursor;
-
-        switch(sUriMatcher.match(uri)){
+        int matchResult = sUriMatcher.match(uri);
+        switch(matchResult){
             case CODE_MOVIE:{
 
                 cursor = mOpenHelper.getReadableDatabase().query(MoviesDbContract.MoviesEntry.TABLE_NAME,
@@ -99,7 +100,21 @@ public class MoviesProvider extends ContentProvider{
                         null,
                         sortOrder
                         );
+                break;
+            }
 
+            case CODE_MOVIE_TRAILER:{
+
+                cursor = mOpenHelper.getReadableDatabase().query(MoviesDbContract.MoviesEntry.TABLE_NAME,
+                        projection,
+                        MoviesDbContract.MoviesEntry.COLUMN_MOVIE_ID + " = ? ",
+                        selectionArgs,
+                        null,
+                        null,
+                        sortOrder
+                );
+
+                break;
             }
 
             default: throw new UnsupportedOperationException("Unknown Uri: "+ uri);

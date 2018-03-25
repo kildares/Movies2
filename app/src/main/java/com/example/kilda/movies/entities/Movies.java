@@ -1,4 +1,4 @@
-package com.example.kilda.movies;
+package com.example.kilda.movies.entities;
 
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -50,8 +50,8 @@ public class Movies implements Parcelable{
     public static final int INDEX_MOVIE_IMAGE = 4;
     public static final int INDEX_MOVIE_RELEASE_DATE = 5;
     public static final int INDEX_MOVIE_SYNOPSIS = 6;
-    public static final int INDEX_MOVIE_REVIEW = 6;
-    public static final int INDEX_MOVIE_TRAILER = 6;
+    public static final int INDEX_MOVIE_REVIEW = 7;
+    public static final int INDEX_MOVIE_TRAILER = 8;
 
 
 
@@ -113,6 +113,22 @@ public class Movies implements Parcelable{
 
     public void setMovieId(String movieId) {
         this.movieId = movieId;
+    }
+
+    public String getReview() {
+        return review;
+    }
+
+    public void setReview(String review) {
+        this.review = review;
+    }
+
+    public String getTrailer() {
+        return trailer;
+    }
+
+    public void setTrailer(String trailer) {
+        this.trailer = trailer;
     }
 
     public static final Parcelable.Creator<Movies> CREATOR = new Parcelable.Creator<Movies>(){

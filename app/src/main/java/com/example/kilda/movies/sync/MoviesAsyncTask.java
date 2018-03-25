@@ -9,15 +9,13 @@ import com.firebase.jobdispatcher.JobParameters;
 /**
  * Created by kilda on 3/24/2018.
  */
-public class MoviesAsyncTask extends AsyncTask<String, Void, String>
+public class MoviesAsyncTask extends AsyncTask<String, Void, Void>
 {
 
     private OnMoviesJobFinishedListener mListener;
 
     JobParameters jobParameters;
     Context mContext;
-
-
 
     public MoviesAsyncTask(Context context){
         this.mContext = context;
@@ -28,7 +26,7 @@ public class MoviesAsyncTask extends AsyncTask<String, Void, String>
     }
 
     @Override
-    protected String doInBackground(String... fetchData) {
+    protected Void doInBackground(String... fetchData) {
 
         if(fetchData == null)
             return null;
@@ -47,14 +45,14 @@ public class MoviesAsyncTask extends AsyncTask<String, Void, String>
                 if(trailerId == null)
                     return null;
 
-                String reviewData = FetchMoviesTask.fetchReview(mContext,trailerId);
-                return reviewData;
+                FetchMoviesTask.fetchReview(mContext,trailerId);
+                return null;
             }
             case TmdbApi.GET_TRAILER_INT:{
                 String reviewID = fetchData[1];
                 if(reviewID == null)
                     return null;
-                String trailerData = FetchMoviesTask.fetchTrailer(mContext, reviewID);
+                FetchMoviesTask.fetchTrailer(mContext, reviewID);
                 break;
             }
             default:{
@@ -76,14 +74,8 @@ public class MoviesAsyncTask extends AsyncTask<String, Void, String>
         mListener.onMoviesJobFinished(jobParameters);
     }
 
-    public void fetchMovies()
-    {
-
-    }
-
     @Override
-    protected void onPostExecute(String movieData)
-    {
+    protected void onPostExecute(Void aVoid) {
         onJobFinishedEvent();
     }
 
