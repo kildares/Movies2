@@ -1,6 +1,8 @@
 package com.example.kilda.movies;
 
+import android.app.AlertDialog;
 import android.content.ContentValues;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.DatabaseUtils;
@@ -138,7 +140,43 @@ public class MovieDetail extends AppCompatActivity implements View.OnClickListen
 
     public void loadReview()
     {
+        String movieReview = this.detailedMovie.getTrailer();
+        String errorMsg = null;
+        if(movieReview == null || movieReview.isEmpty())
+        {
+            Cursor cursor = getContentResolver().query(
+                    MoviesDbContract.MoviesEntry.buildQueryReviewUri(this.detailedMovie.getMovieId()),
+                    new String[]{MoviesDbContract.MoviesEntry.COLUMN_MOVIE_REVIEW},
+                    null,
+                    new String[]{this.detailedMovie.getMovieId()},
+                    null);
 
+            if(cursor == null || cursor.getCount() == 0)
+                errorMsg = getString(R.string.error_review_unavailable);
+            else
+            {
+                cursor.moveToFirst();
+
+                Log.d("Cursor",DatabaseUtils.dumpCursorToString(cursor));
+                movieReview = cursor.getString(0);
+            }
+        }
+
+        if(errorMsg != null)
+            Toast.makeText(this,errorMsg,Toast.LENGTH_LONG).show();
+        else
+        {
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setMessage(movieReview);
+            builder.setTitle(R.string.movie_review_title);
+            builder.setPositiveButton(R.string.movie_review_ok_button, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                }
+            });
+            AlertDialog dialog = builder.create();
+            dialog.show();
+        }
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)

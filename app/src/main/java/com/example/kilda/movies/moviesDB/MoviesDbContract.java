@@ -54,6 +54,13 @@ public class MoviesDbContract {
                     .build();
             return uri;
         }
+        public static Uri buildQueryReviewUri(String id)
+        {
+            Uri uri = BASE_CONTENT_URI.buildUpon()
+                    .appendPath(PATH_MOVIE).appendPath(PATH_MOVIE_REVIEW).appendPath(id)
+                    .build();
+            return uri;
+        }
 
 
         public static Uri buildMovieFavoriteIdUri(String id)

@@ -17,6 +17,8 @@
     <string name="rateDetail">RATE:</string>
     <string name="trailer_button">Watch Trailer</string>
     <string name="review_button">See review</string>
+    <string name="movie_review_title">Movie Review</string>
+    <string name="movie_review_ok_button">OK</string>
 
     <string name="error_review_unavailable">I\'m sorry, the review is unavailable</string>
     <string name="error_trailer_unavailable">I\'m sorry, the trailer is unavailable</string>

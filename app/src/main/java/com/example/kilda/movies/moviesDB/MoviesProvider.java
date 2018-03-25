@@ -116,6 +116,19 @@ public class MoviesProvider extends ContentProvider{
 
                 break;
             }
+            case CODE_MOVIE_REVIEW:{
+
+                cursor = mOpenHelper.getReadableDatabase().query(MoviesDbContract.MoviesEntry.TABLE_NAME,
+                        projection,
+                        MoviesDbContract.MoviesEntry.COLUMN_MOVIE_ID + " = ? ",
+                        selectionArgs,
+                        null,
+                        null,
+                        sortOrder
+                );
+
+                break;
+            }
 
             default: throw new UnsupportedOperationException("Unknown Uri: "+ uri);
         }
