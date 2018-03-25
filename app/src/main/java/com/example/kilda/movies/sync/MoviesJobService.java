@@ -14,7 +14,7 @@ import com.firebase.jobdispatcher.JobParameters;
 public class MoviesJobService extends com.firebase.jobdispatcher.JobService implements OnMoviesJobFinishedListener
 {
 
-    private AsyncTask<String, Void, Void> mAsyncTask;
+    private AsyncTask<String, Void, String> mAsyncTask;
 
     @Override
     public boolean onStartJob(JobParameters jobParameters) {
@@ -41,15 +41,15 @@ public class MoviesJobService extends com.firebase.jobdispatcher.JobService impl
         mAsyncTask.execute(new String[]{TmdbApi.GET_TRAILER_STR, movieId});
     }
 
-    public void getTrailers(String movieId)
+    public void getReviews(String movieId)
     {
         mAsyncTask = new MoviesAsyncTask(this);
-        mAsyncTask.execute(new String[]{TmdbApi.GET_TRAILER_STR, movieId});
+        mAsyncTask.execute(new String[]{TmdbApi.GET_REVIEW_STR, movieId});
     }
 
 
     @Override
-    public void onJobFinished(JobParameters jobParameters)
+    public void onMoviesJobFinished(JobParameters jobParameters)
     {
         jobFinished(jobParameters,false);
     }

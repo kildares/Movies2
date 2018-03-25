@@ -16,7 +16,11 @@ public class MoviesDbContract {
 
     public static final String PATH_MOVIE = "movie";
     public static final String PATH_MOVIE_FAVORITE = "favorite";
+    public static final String PATH_MOVIE_TRAILER = "trailer";
+    public static final String PATH_MOVIE_REVIEW = "review";
     public static final String PATH_MOVIE_ID = "#";
+
+
 
     public static final class MoviesEntry implements BaseColumns
     {
@@ -40,11 +44,10 @@ public class MoviesDbContract {
 
         public static final String COLUMN_MOVIE_IMAGE = "image";
 
-        public static Uri buildMovieFavoriteUri() {
-            return CONTENT_URI.buildUpon()
-                    .appendPath("favorite")
-                    .build();
-        }
+        public static final String COLUMN_MOVIE_REVIEW = "review";
+
+        public static final String COLUMN_MOVIE_TRAILER = "trailer";
+
 
         public static Uri buildMovieFavoriteIdUri(String id)
         {
@@ -53,11 +56,21 @@ public class MoviesDbContract {
             return uri;
         }
 
-        public static String getSqlSelectForFavorite() {
-            return "? != 1";
+        public static Uri buildMovieTrailerUri(String id)
+        {
+            Uri uri = CONTENT_URI.buildUpon().appendPath(PATH_MOVIE_TRAILER).appendPath(id).build();
+            Log.d("Review Id URI",uri.toString());
+            return uri;
         }
 
-        public static String getSqlForUpdateFavorite()
+        public static Uri buildMovieReviewUri(String id)
+        {
+            Uri uri = CONTENT_URI.buildUpon().appendPath(PATH_MOVIE_REVIEW).appendPath(id).build();
+            Log.d("Review Id URI",uri.toString());
+            return uri;
+        }
+
+        public static String getSqlForIdUpdate()
         {
             return COLUMN_MOVIE_ID + "= ?";
         }

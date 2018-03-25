@@ -99,7 +99,7 @@ public class MovieDetail extends AppCompatActivity implements View.OnClickListen
 
                 getContentResolver().update(MoviesDbContract.MoviesEntry.buildMovieFavoriteIdUri(detailedMovie.getMovieId()),
                         contentValues,
-                        MoviesDbContract.MoviesEntry.getSqlForUpdateFavorite(),
+                        MoviesDbContract.MoviesEntry.getSqlForIdUpdate(),
                         new String[]{detailedMovie.getMovieId()}
                         );
 

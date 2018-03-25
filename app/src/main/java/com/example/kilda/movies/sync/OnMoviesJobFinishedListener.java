@@ -11,6 +11,6 @@ import com.firebase.jobdispatcher.JobParameters;
  */
 interface OnMoviesJobFinishedListener {
 
-    void onJobFinished(JobParameters jobParameters);
+    void onMoviesJobFinished(JobParameters jobParameters);
 
 }

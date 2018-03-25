@@ -19,6 +19,8 @@ public class MoviesProvider extends ContentProvider{
     public static final int CODE_MOVIE = 100;
     public static final int CODE_MOVIE_FAVORITE = 200;
     public static final int CODE_MOVIE_FAVORITE_FILTER = 201;
+    public static final int CODE_MOVIE_REVIEW = 202;
+    public static final int CODE_MOVIE_TRAILER = 203;
 
 
     private static final UriMatcher sUriMatcher = buildUriMatcher();
@@ -31,13 +33,30 @@ public class MoviesProvider extends ContentProvider{
 
         matcher.addURI(authority, MoviesDbContract.PATH_MOVIE, CODE_MOVIE);
         matcher.addURI(authority, MoviesDbContract.PATH_MOVIE + "/" + MoviesDbContract.PATH_MOVIE_FAVORITE, CODE_MOVIE_FAVORITE);
-
+        //URI to update favorites
         matcher.addURI( authority,   MoviesDbContract.PATH_MOVIE +
                                         "/" +
                                         MoviesDbContract.PATH_MOVIE_FAVORITE +
                                         "/" +
                                         MoviesDbContract.PATH_MOVIE_ID,
                         MoviesProvider.CODE_MOVIE_FAVORITE_FILTER);
+        //URI to update movie reviews
+        matcher.addURI(authority,   MoviesDbContract.PATH_MOVIE +
+                                        "/" +
+                                        MoviesDbContract.PATH_MOVIE_REVIEW +
+                                        "/" +
+                                        MoviesDbContract.PATH_MOVIE_ID,
+                        MoviesProvider.CODE_MOVIE_REVIEW);
+        //URI to update movie trailer
+        matcher.addURI(authority,   MoviesDbContract.PATH_MOVIE +
+                        "/" +
+                        MoviesDbContract.PATH_MOVIE_TRAILER+
+                        "/" +
+                        MoviesDbContract.PATH_MOVIE_ID,
+                MoviesProvider.CODE_MOVIE_TRAILER);
+
+        matcher.addURI(authority,MoviesDbContract.PATH_MOVIE+ "/#/" +, CODE_MOVIE_TRAILER);
+
         return matcher;
     }
 
@@ -154,9 +173,31 @@ public class MoviesProvider extends ContentProvider{
                         s,
                         strings);
 
-                Log.d("MOVIES","UPDATED MOVIE");
+                Log.d("MOVIES","UPDATED MOVIE FAVORITE");
                 break;
             }
+
+            case CODE_MOVIE_REVIEW:
+            {
+
+                result = sqLiteDatabase.update(MoviesDbContract.MoviesEntry.TABLE_NAME,
+                        contentValues,
+                        s,
+                        strings);
+
+                Log.d("MOVIES","UPDATED MOVIE FAVORITE");
+            }
+
+            case CODE_MOVIE_TRAILER:
+            {
+                result = sqLiteDatabase.update(MoviesDbContract.MoviesEntry.TABLE_NAME,
+                        contentValues,
+                        s,
+                        strings);
+
+                Log.d("MOVIES","UPDATED MOVIE FAVORITE");
+            }
+
             default: throw new UnsupportedOperationException("Not valid Uri");
         }
         if(result > 0)

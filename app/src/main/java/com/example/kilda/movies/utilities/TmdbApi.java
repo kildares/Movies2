@@ -16,7 +16,8 @@ public class TmdbApi {
 
     private static final String API_KEY = BuildConfig.TMDB_API_KEY;
     private static final String LANGUAGE = "en-US";
-    private static final String PAGE = "1";
+    private static final String PAGE_NUM = "1";
+    private static final String PAGE = "page";
     private static final String REGION = "Brazil";
     private static final String BASE_URL = "https://api.themoviedb.org/3/movie/";
     private static final String IMG_SIZE_STANDARD = "w185/";
@@ -128,5 +129,34 @@ public class TmdbApi {
 
     public static String getImageUrl(String movieImg) {
         return "http://image.tmdb.org/t/p/" + IMG_SIZE_STANDARD + movieImg;
+    }
+
+    public static URL buildTrailerRequestURL(String movieId) {
+        Uri builtUri = Uri.parse(BASE_URL + movieId + "/videos").buildUpon().appendQueryParameter(API_KEY_URL, API_KEY).
+                appendQueryParameter(LANGUAGE_URL,LANGUAGE)
+                .build();
+        URL url = null;
+        try{
+            url = new URL(builtUri.toString());
+        } catch(MalformedURLException e)
+        {
+            e.printStackTrace();
+        }
+        return url;
+    }
+
+    public static URL buildReviewRequestURL(String movieId) {
+        Uri builtUri = Uri.parse(BASE_URL + movieId + "/reviews").buildUpon().appendQueryParameter(API_KEY_URL, API_KEY).
+                appendQueryParameter(LANGUAGE_URL,LANGUAGE).
+                appendQueryParameter(PAGE,PAGE_NUM)
+                .build();
+        URL url = null;
+        try{
+            url = new URL(builtUri.toString());
+        } catch(MalformedURLException e)
+        {
+            e.printStackTrace();
+        }
+        return url;
     }
 }

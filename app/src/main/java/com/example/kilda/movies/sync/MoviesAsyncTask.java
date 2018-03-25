@@ -6,19 +6,18 @@ import android.os.AsyncTask;
 import com.example.kilda.movies.utilities.TmdbApi;
 import com.firebase.jobdispatcher.JobParameters;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * Created by kilda on 3/24/2018.
  */
-public class MoviesAsyncTask extends AsyncTask<String, Void, Void>
+public class MoviesAsyncTask extends AsyncTask<String, Void, String>
 {
 
     private OnMoviesJobFinishedListener mListener;
 
     JobParameters jobParameters;
     Context mContext;
+
+
 
     public MoviesAsyncTask(Context context){
         this.mContext = context;
@@ -29,7 +28,7 @@ public class MoviesAsyncTask extends AsyncTask<String, Void, Void>
     }
 
     @Override
-    protected Void doInBackground(String... fetchData) {
+    protected String doInBackground(String... fetchData) {
 
         if(fetchData == null)
             return null;
@@ -48,19 +47,20 @@ public class MoviesAsyncTask extends AsyncTask<String, Void, Void>
                 if(trailerId == null)
                     return null;
 
-                FetchMoviesTask.fetchReview(mContext,trailerId);
-
-                break;
+                String reviewData = FetchMoviesTask.fetchReview(mContext,trailerId);
+                return reviewData;
             }
             case TmdbApi.GET_TRAILER_INT:{
                 String reviewID = fetchData[1];
                 if(reviewID == null)
                     return null;
-                FetchMoviesTask.fetchReview(mContext, reviewID);
+                String trailerData = FetchMoviesTask.fetchTrailer(mContext, reviewID);
                 break;
             }
             default:{
-
+                Context context = this.mContext;
+                FetchMoviesTask.syncMovies(context);
+                onJobFinishedEvent();
             }
         }
         return null;
@@ -73,7 +73,7 @@ public class MoviesAsyncTask extends AsyncTask<String, Void, Void>
 
     public void onJobFinishedEvent()
     {
-        mListener.onJobFinished(jobParameters);
+        mListener.onMoviesJobFinished(jobParameters);
     }
 
     public void fetchMovies()
@@ -82,7 +82,7 @@ public class MoviesAsyncTask extends AsyncTask<String, Void, Void>
     }
 
     @Override
-    protected void onPostExecute(Void aVoid)
+    protected void onPostExecute(String movieData)
     {
         onJobFinishedEvent();
     }

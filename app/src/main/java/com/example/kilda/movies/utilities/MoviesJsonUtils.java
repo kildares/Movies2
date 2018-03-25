@@ -23,6 +23,10 @@ public class MoviesJsonUtils {
     private static final String ID = "id";
     private static final String AVG = "vote_average";
 
+    private static final String REVIEW_CONTENT = "content";
+    private static final String TRAILER_KEY = "key";
+
+
     public static ContentValues[] parseJSonToMovies(String jsonStr)
     {
 
@@ -63,4 +67,45 @@ public class MoviesJsonUtils {
 
         return null;
     }
+
+    public static ContentValues parseJSonToMovieReview(String jsonData) {
+        try {
+            JSONObject json = new JSONObject(jsonData);
+
+            JSONArray jsonArray = json.getJSONArray(MoviesJsonUtils.results);
+            if (jsonArray == null || jsonArray.length() == 0)
+                return null;
+
+            ContentValues contentValues = new ContentValues();
+            JSONObject jsonObject = jsonArray.getJSONObject(0);
+            String review = jsonObject.getString(MoviesJsonUtils.REVIEW_CONTENT);
+
+            contentValues.put(MoviesDbContract.MoviesEntry.COLUMN_MOVIE_REVIEW, review);
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public static ContentValues parseJSonToMovieTrailer(String jsonData)
+    {
+        try {
+            JSONObject json = new JSONObject(jsonData);
+
+            JSONArray jsonArray = json.getJSONArray(MoviesJsonUtils.results);
+            if (jsonArray == null || jsonArray.length() == 0)
+                return null;
+
+            ContentValues contentValues = new ContentValues();
+            JSONObject jsonObject = jsonArray.getJSONObject(0);
+            String trailer = jsonObject.getString(MoviesJsonUtils.TRAILER_KEY);
+            contentValues.put(MoviesDbContract.MoviesEntry.COLUMN_MOVIE_TRAILER, trailer);
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
 }

@@ -17,6 +17,8 @@ public class Movies implements Parcelable{
     private String movieId;
     private String average;
     private String favorite;
+    private String review;
+    private String trailer;
 
     public Movies(String movieId, String name, String year, String image, String synopsis,String average, String favorite)
     {
@@ -36,7 +38,9 @@ public class Movies implements Parcelable{
             MoviesDbContract.MoviesEntry.COLUMN_MOVIE_AVERAGE,
             MoviesDbContract.MoviesEntry.COLUMN_MOVIE_IMAGE,
             MoviesDbContract.MoviesEntry.COLUMN_MOVIE_RELEASE_DATE,
-            MoviesDbContract.MoviesEntry.COLUMN_MOVIE_SYNOPSIS
+            MoviesDbContract.MoviesEntry.COLUMN_MOVIE_SYNOPSIS,
+            MoviesDbContract.MoviesEntry.COLUMN_MOVIE_REVIEW,
+            MoviesDbContract.MoviesEntry.COLUMN_MOVIE_TRAILER
     };
 
     public static final int INDEX_MOVIE_ID = 0;
@@ -46,6 +50,8 @@ public class Movies implements Parcelable{
     public static final int INDEX_MOVIE_IMAGE = 4;
     public static final int INDEX_MOVIE_RELEASE_DATE = 5;
     public static final int INDEX_MOVIE_SYNOPSIS = 6;
+    public static final int INDEX_MOVIE_REVIEW = 6;
+    public static final int INDEX_MOVIE_TRAILER = 6;
 
 
 

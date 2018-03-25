@@ -5,7 +5,6 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.util.Log;
 
-import com.example.kilda.movies.MainActivity;
 import com.example.kilda.movies.R;
 import com.example.kilda.movies.moviesDB.MoviesDbContract;
 import com.example.kilda.movies.moviesPreferences.MoviesPreferences;
@@ -17,27 +16,78 @@ import java.io.IOException;
 import java.net.URL;
 
 /**
- * Created by kilda on 2/20/2018.
+ *
  */
-
 public class FetchMoviesTask
 {
 
-    synchronized public static void fetchTrailer(Context context,String trailerId){
-        URL trailerRequest = TmdbApi.buildTrailerRequestURL(trailerId);
+    synchronized public static String fetchTrailer(Context context,String movieId){
+        URL trailerRequest = TmdbApi.buildTrailerRequestURL(movieId);
+        String movieData = null;
         try {
-            String movieData = NetworkUtils.getResponseFromHttpUrl(moviesRequestUrl);
+            movieData = NetworkUtils.getResponseFromHttpUrl(trailerRequest);
+            ContentValues contentValues = MoviesJsonUtils.parseJSonToMovieTrailer(movieData);
+            updateMovieData(context, TmdbApi.GET_TRAILER_INT, contentValues, movieId);
+
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-
+        return movieData;
     }
 
-    synchronized public static void fetchReview(Context context,String reviewID){
+    synchronized public static String fetchReview(Context context,String movieId){
+        URL trailerRequest = TmdbApi.buildReviewRequestURL(movieId);
+        String movieData = null;
+        try {
+            movieData = NetworkUtils.getResponseFromHttpUrl(trailerRequest);
+            ContentValues contentValues = MoviesJsonUtils.parseJSonToMovieReview(movieData);
+            updateMovieData(context, TmdbApi.GET_REVIEW_INT, contentValues, movieId);
 
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return movieData;
     }
 
+    /**
+     * This function effectively updates the data received
+     * @param context
+     * @param movieData
+     */
+    public static void updateMovieData(Context context, int updateType, ContentValues movieData, String movieId)
+    {
+        switch(updateType) {
+            case TmdbApi.GET_TRAILER_INT: {
+                int result = context.getContentResolver().update(
+                        MoviesDbContract.buildMovieTrailerUri(movieId),
+                        movieData,
+                        MoviesDbContract.getSqlForIdUpdate(),
+                        new String[]{movieId});
+                Log.d("Movies", "update movie traailers: " + Integer.toString(result));
+                break;
+            }
+            case TmdbApi.GET_REVIEW_INT:
+            {
+                int result = context.getContentResolver().update(
+                        MoviesDbContract.buildMovieTrailerUri(movieId),
+                        movieData,
+                        MoviesDbContract.getSqlForIdUpdate(),
+                        new String[]{movieId});
+                Log.d("Movies", "update movie reviews: " + Integer.toString(result));
+                break;
+            }
+
+            defaut:
+            {
+                int result = context.getContentResolver().update(
+                        MoviesDbContract.buildMovieTrailerUri(movieId),
+                        movieData,
+                        MoviesDbContract.getSqlForIdUpdate(),
+                        new String[]{movieId});
+                Log.d("Movies", "update movie data: " + Integer.toString(result));
+            }
+        }
+    }
 
     synchronized public static void syncMovies(Context context)
     {
@@ -87,9 +137,9 @@ public class FetchMoviesTask
                         "favorite != 1",
                         null);
 
-                Log.d("Movies","Number of deleted rows: " + Integer.toString(deletedRows));
+                //Log.d("Movies","Number of deleted rows: " + Integer.toString(deletedRows));
 
-                MainActivity.testHelper(context.getContentResolver());
+                //MainActivity.testHelper(context.getContentResolver());
 
                 moviesContentResolver.bulkInsert(MoviesDbContract.MoviesEntry.CONTENT_URI, movies);
             }
@@ -100,5 +150,4 @@ public class FetchMoviesTask
         }
 
     }
-
 }
