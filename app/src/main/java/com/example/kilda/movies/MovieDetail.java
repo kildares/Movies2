@@ -132,9 +132,7 @@ public class MovieDetail extends AppCompatActivity implements View.OnClickListen
             loadReview();
         }
         else if(view.getId() == btTrailer.getId()){
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 loadTrailer();
-            }
         }
     }
 
@@ -179,7 +177,6 @@ public class MovieDetail extends AppCompatActivity implements View.OnClickListen
         }
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
     private void loadTrailer()
     {
         String movieTrailer = this.detailedMovie.getTrailer();
